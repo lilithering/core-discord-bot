@@ -6,7 +6,9 @@ const MOD = {
 };
 
 const BASE = {
+    encoding: 'utf-8',
     filename: MOD.path.basename(__filename),
+    folder: MOD.path.parse(__filename).dir,
     client: {
         token: MOD.secret.client.token,
         default: {
@@ -16,9 +18,8 @@ const BASE = {
                     console.log(`"client" conectado com sucesso. ${client.user.id}/${client.user.username}`);
                 },
                 InteractionCreate: async (interaction) => {
-                    if (!(interaction.isChatInputCommand())) {
-                        interaction.client.commands.get(interaction.commandName).execute();
-                    };
+                    if (!interaction.isChatInputCommand()) return
+                    interaction.reply('ok');
                 },
             }
         }
@@ -26,6 +27,22 @@ const BASE = {
 };
 
 const MAKE = {};
+
+const CALL = {
+    dir: (folder) => {
+        const path = MOD.path.join(BASE.folder, 'commands');
+        return MOD.filesystem.readdirSync(path);
+    },
+}
+
+const GET = {
+    commandFiles: () => {
+        return CALL.dir('commands').filter(file => { return file.endsWith('.js') });
+    },
+    command: (file) => {
+        return require(MOD.path.join(BASE.folder, 'commands', file));
+    }
+};
 
 const BUILD = {
     client: {
@@ -39,9 +56,27 @@ const BUILD = {
             return client;
         },
         commands: (options = BASE.client.default.options) => {
+            // ! set client
             const client = new MOD.discord.Client(options);
+            // ! init commands
+            const commands = [];
+            // ! get commands files
+            const commandFiles = GET.commandFiles();
+            // <file>
+            for (file of commandFiles)
+            {
+                // ! get command
+                const command = GET.command(file);
+                // ! insert command file
+                commands.push(command);
+            }
+            // ! set client commands
+            client.commands = commands;
+            // @ClientReady
             client.once(MOD.discord.Events.ClientReady, BASE.client.default.callbacks.ClientReady);
+            // @InteractionCreate
             client.on(MOD.discord.Events.InteractionCreate, BASE.client.default.callbacks.InteractionCreate);
+
             return client;
         },
     },
@@ -52,7 +87,7 @@ const BUILD = {
         let data = [];
         data.push('// core-discord-bot autobuilder, https://github.com/lilithering/core-discord-bot');
         data.push(`const core = require('./../${BASE.filename}');`);
-        data.push(`module.exports = { name: ${name}, execute: async (interaction)=>{(${execute.toString()})(interaction)}};`);
+        data.push(`module.exports = { name: '${name}', execute: async (interaction)=>{(${execute.toString()})(interaction)}};`);
         data = data.join('\n');
         // ! write file
         MOD.filesystem.writeFileSync(filename, data);
