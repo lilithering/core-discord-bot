@@ -59,11 +59,12 @@ const ECX = {
         const commands = [];
         const files = EAX.filesystem.readdirSync(EAX.path.join(EBX.self.dir, EBX.mod.command.folder));
         for (file of files) {
-            commands.push(require('./'.concat(EAX.path.join(EBX.mod.command.folder, file))));
+            const path = './'.concat(EAX.path.join(EBX.mod.command.folder, file));
+            commands.push(require(path).data.toJSON());
         };
         (async () => {
             await client.login(EBX.client.token);
-            await rest.put(EAX.discord.Routes.applicationCommands(client.user.id), { body: commands.data.toJSON(), });
+            await rest.put(EAX.discord.Routes.applicationCommands(client.user.id), { body: commands, });
             console.log('Comandos adicionados com sucesso!');
         })();
     },
