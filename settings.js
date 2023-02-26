@@ -13,12 +13,15 @@ const EBX = {
 
 const ECXP = {
     intents: { intents: new EAX.discord.IntentsBitField(EAX.discord.GatewayIntentBits.Guilds, EAX.discord.GatewayIntentBits.GuildMessages, EAX.discord.GatewayIntentBits.MessageContent) },
-    callbackClientReady: (client) => { console.log(`Login bem sucedido (${client.user.id}@${client.user.username})`); },
 }
 
 const ECXM = {
     client: (options = ECXP.intents) => { return new EAX.discord.Client(options) },
 };
+
+const ECXCB = {
+    callbackClientReady: (client) => { console.log(`Login bem sucedido (${client.user.id}@${client.user.username})`); },
+}
 
 const ECX = {
     client: (options) => {
@@ -27,7 +30,7 @@ const ECX = {
     login: (options) => {
         const client = ECXM.client(options);
         client.login(EBX.client.token);
-        client.once(EAX.discord.Events.ClientReady, ECXM.callbackClientReady);
+        client.once(EAX.discord.Events.ClientReady, ECXCB.callbackClientReady);
         return client;
     }
 }
