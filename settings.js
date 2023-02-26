@@ -46,7 +46,7 @@ const ECX = {
     command: (name, description, content) => {
         const path = EAX.path.join(EBX.self.dir, EBX.mod.command.folder, name);
         const data = [`// archanisther`];
-        data.push(`const core = require('./../${EAX.module.filename}');`);
+        data.push(`const core = require('./../${EAX.self.filename}');`);
         data.push(`module.exports = { data: new core.mod.slash().setName('${name}').setDescription('${description}'), `);
         data.push(`async execute${content},};`);
         data = data.join('\n');
