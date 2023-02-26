@@ -3,3 +3,4 @@ node_modules
 secret.json
 debug.js
 package.json
+commands/**/
