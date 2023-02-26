@@ -9,6 +9,16 @@ const EBX = {
     client: {
         token: EAX.secret.client.token,
     },
+    self: {
+        path: __filename,
+        filename: EAX.path.parse(__filename).name,
+        dir: EAX.path.parse(__filename).dir,
+    },
+    mod: {
+        command: {
+            folder: 'commands',
+        },
+    },
 };
 
 const ECXP = {
@@ -32,10 +42,24 @@ const ECX = {
         client.login(EBX.client.token);
         client.once(EAX.discord.Events.ClientReady, ECXCB.callbackClientReady);
         return client;
-    }
-}
+    },
+    command: (name, description, content) => {
+        const path = EAX.path.join(EBX.self.dir, EBX.mod.command.folder, name);
+        const data = [`// archanisther`];
+        data.push(`const core = require('./../${EAX.module.filename}');`);
+        data.push(`module.exports = { data: new core.mod.slash().setName('${name}').setDescription('${description}'), `);
+        data.push(`async execute${content},};`);
+        data = data.join('\n');
+        EAX.filesystem.writeFileSync(path, data);
+    },
+};
+
+const EDX = {
+    slash: EAX.discord.SlashCommandBuilder,
+};
 
 module.exports = {
     data: EBX,
+    mod: EDX,
     ...ECX,
 };
