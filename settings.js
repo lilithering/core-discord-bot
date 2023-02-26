@@ -58,7 +58,7 @@ const ECX = {
         const client = ECXM.client();
         const commands = [];
         const files = EAX.filesystem.readdirSync(EAX.path.join(EBX.self.dir, EBX.mod.command.folder));
-        for (file in files) {
+        for (file of files) {
             commands.push(require('./'.concat(EAX.path.join(EBX.mod.command.folder, file))));
         };
         (async () => {
