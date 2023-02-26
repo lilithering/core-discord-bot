@@ -25,4 +25,5 @@ const ECX = {
 
 module.exports = {
     data: EBX,
+    ...ECX,
 };
