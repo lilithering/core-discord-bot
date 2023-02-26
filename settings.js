@@ -63,7 +63,7 @@ const ECX = {
         };
         (async () => {
             await client.login(EBX.client.token);
-            await rest.put(EAX.discord.Routes.applicationCommands(client.user.id), { body: commands });
+            await rest.put(EAX.discord.Routes.applicationCommands(client.user.id), { body: commands.data.toJSON(), });
             console.log('Comandos adicionados com sucesso!');
         })();
     },
