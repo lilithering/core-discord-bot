@@ -11,6 +11,7 @@ const IMPORTS = {
         catch (err) {
             const version = '14.7.1';
             console.error(`Esse núcleo requer o módulo (discord.js) versão ${version} ou superior.\nExecute o comando:\nnpm install discord.js@^${version}`);
+            console.error('Ou adicione: "discord.js": "^14.7.1" em dependencies no seu arquivo package.json.');
         };
     },
     secret: () => {
