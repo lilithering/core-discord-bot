@@ -27,6 +27,7 @@ const ECXP = {
 
 const ECXM = {
     client: (options = ECXP.intents) => { return new EAX.discord.Client(options) },
+    rest: () => { return EAX.discord.REST({ version: '10' }).setToken(EBX.client.token); },
 };
 
 const ECXCB = {
@@ -51,6 +52,20 @@ const ECX = {
         data.push(`\tdata: new core.mod.slash().setName('${name}').setDescription('${description}'), `);
         data.push(`\texecute: async ${content},};`);
         EAX.filesystem.writeFileSync(path, data.join('\n'));
+    },
+    deployCommands: () => {
+        const rest = ECXM.rest();
+        const client = ECXM.client();
+        const commands = [];
+        const files = EAX.filesystem.readdirSync(EAX.path.join(EBX.self.dir, EBX.mod.command.folder));
+        for (file in files) {
+            commands.push(require('./'.concat(EAX.path.join(EBX.mod.command.folder, file))));
+        };
+        (async () => {
+            await client.login(EBX.client.token);
+            await rest.put(EAX.discord.Routes.applicationCommands(client.user.id), { body: commands });
+            console.log('Comandos adicionados com sucesso!');
+        })();
     },
 };
 
