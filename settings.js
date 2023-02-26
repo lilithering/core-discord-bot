@@ -66,6 +66,7 @@ const ECX = {
             await client.login(EBX.client.token);
             await rest.put(EAX.discord.Routes.applicationCommands(client.user.id), { body: commands, });
             console.log('Comandos adicionados com sucesso!');
+            client.destroy();
         })();
     },
 };
