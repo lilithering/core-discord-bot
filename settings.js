@@ -27,7 +27,7 @@ const ECXP = {
 
 const ECXM = {
     client: (options = ECXP.intents) => { return new EAX.discord.Client(options) },
-    rest: () => { return EAX.discord.REST({ version: '10' }).setToken(EBX.client.token); },
+    rest: () => { return new EAX.discord.REST({ version: '10' }).setToken(EBX.client.token); },
 };
 
 const ECXCB = {
