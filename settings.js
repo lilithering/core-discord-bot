@@ -7,7 +7,7 @@ const EAX = {
 
 const EBX = {
     client: {
-        token: secret.client.token,
+        token: EAX.secret.client.token,
     },
 };
 
