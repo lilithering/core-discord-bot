@@ -7,22 +7,18 @@ const EAX = {
 
 const LGPTEX = {
     knowledges: {
-        laboratorio: '/^labor[a-z]rio/i',
+        laboratorio: /^labor[a-z]rio/i,
     },
 }
 
 const LGPTAX = {
     commands: {
-        'traga para': (param) => {
+        labs: [/(traga para|me diga)/i, (word) => {
             // @debug
-            console.log(`left: ${param[1]}\nright: ${param[2]}\nfull: ${param[0]}`);
-            // read ex
-            for (c in LGPTEX) {
-                console.log(`debug> expr(${param[0].match(LGPTEX[c])})`);
-                console.log('c> ' + c);
-            }
-        },
-    },
+            console.log(`word> ${word}`);
+            // traga para mim os resultados do laboratório globo-frontend
+        }],
+    }
 };
 
 
