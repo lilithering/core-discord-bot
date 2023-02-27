@@ -87,7 +87,7 @@ const ECX = {
         client.once(EAX.discord.Events.ClientReady, ECXCB.ClientReady);
         return client;
     },
-    command: (name, description, content, settings = undefined) => {
+    command: (name, description, content, settings = '') => {
         const path = EAX.path.join(EBX.self.dir, EBX.mod.command.folder, name.concat('.js'));
         const data = [`// archanisther`];
         data.push(`const core = require('./../${EBX.self.filename}');`);
