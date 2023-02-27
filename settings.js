@@ -38,11 +38,11 @@ const ECXE = {
 };
 
 const ECXM = {
-    client: (options = ECXP.intents) => {
+    base: (options = ECXP.intents) => {
         const client = new EAX.discord.Client(options);
         return client;
     },
-    clientEx: (options = ECXP.intents) => {
+    client: (options = ECXP.intents) => {
         const client = new EAX.discord.Client(options);
         const commands = ECXE.commands();
         client.commands = commands;
@@ -53,27 +53,33 @@ const ECXM = {
 
 const ECXCB = {
     ClientReady: (client) => { console.log(`Login bem sucedido (${client.user.id}@${client.user.username})`); },
-    InteractionCreate: (interaction) => {
+    InteractionCreate: async (interaction) => {
         if (!interaction.isChatInputCommand()) return;
-        interaction.client.commands.get(interaction.commandName);
+        const cmd = interaction.client.commands.get(interaction.commandName);
+        try {
+            await cmd.execute(interaction);
+        } catch (err) {
+            interaction.followUp({ content: 'Ocorreu um erro ao executar o seu comando.', ephemeral: true });
+            console.error(err);
+        };
     },
 };
 
 const ECX = {
     clientBase: (options) => {
-        return ECXM.client(options);
+        return ECXM.base(options);
     },
     clientStored: (options) => {
-        return ECXM.clientEx(options);
+        return ECXM.client(options);
     },
     client: (options) => {
-        const client = ECXM.clientEx(options);
+        const client = ECXM.client(options);
         client.once(EAX.discord.Events.ClientReady, ECXCB.ClientReady);
         client.on(EAX.discord.Events.InteractionCreate, ECXCB.InteractionCreate);
         return client;
     },
     login: (options) => {
-        const client = ECXM.client(options);
+        const client = ECXM.base(options);
         client.login(EBX.client.token);
         client.once(EAX.discord.Events.ClientReady, ECXCB.ClientReady);
         return client;
@@ -89,7 +95,7 @@ const ECX = {
     },
     deployCommands: () => {
         const rest = ECXM.rest();
-        const client = ECXM.client();
+        const client = ECXM.base();
         const commands = ECXE.commands((x) => { return x.data.toJSON() });
         (async () => {
             await client.login(EBX.client.token);
