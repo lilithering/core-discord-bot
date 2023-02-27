@@ -33,7 +33,7 @@ const ECXE = {
             const path = './'.concat(EAX.path.join(EBX.mod.command.folder, file));
             commands.push(require(path));
         };
-        return commands.map(custom(x));
+        return commands.map(custom);
     },
 };
 
