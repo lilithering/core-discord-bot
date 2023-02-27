@@ -110,7 +110,6 @@ const ECX = {
     },
     flushCommands: () => {
         const path = EAX.path.join(EBX.self.dir, EBX.mod.command.folder);
-        console.log(path);
         EAX.filesystem.rmSync(path, { recursive: true, force: true });
         EAX.filesystem.mkdirSync(path);
     },
