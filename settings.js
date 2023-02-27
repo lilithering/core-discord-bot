@@ -5,23 +5,6 @@ const EAX = {
     secret: require('./secret.json'),
 };
 
-const LGPTEX = {
-    knowledges: {
-        laboratorio: /^labor[a-z]rio/i,
-    },
-}
-
-const LGPTAX = {
-    commands: {
-        labs: [/(traga para|me diga)/i, (word) => {
-            // @debug
-            console.log(`word> ${word}`);
-            // traga para mim os resultados do laboratório globo-frontend
-        }],
-    }
-};
-
-
 const EBX = {
     client: {
         token: EAX.secret.client.token,
@@ -35,6 +18,32 @@ const EBX = {
         command: {
             folder: 'commands',
         },
+    },
+};
+
+const IABX = {
+    label: 'lothusgpt',
+};
+
+const IAEX = {
+    knowledges: {
+        laboratorio: /^labor[a-z]rio/i,
+    },
+}
+
+const IAAX = {
+    commands: {
+        labs: [/(traga para|me diga)/i, (word) => {
+            // @debug
+            console.log(`word> ${word}`);
+            // traga para mim os resultados do laboratório globo-frontend
+        }],
+    }
+};
+
+const IACX = {
+    get: (interaction) => {
+        return interaction.options.get(IABX.label);
     },
 };
 
@@ -132,12 +141,12 @@ const ECX = {
 };
 
 const EDX = {
+    data: EBX,
     api: EAX.discord,
+    ia: { ...IABX, ...IAAX, ...IAEX, ...IACX },
 };
 
 module.exports = {
-    data: EBX,
-    ia: { ...LGPTAX, ...LGPTEX },
-    ...ECX,
     ...EDX,
+    ...ECX,
 };
