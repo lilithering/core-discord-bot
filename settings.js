@@ -40,6 +40,10 @@ const ECXE = {
 const ECXM = {
     client: (options = ECXP.intents) => {
         const client = new EAX.discord.Client(options);
+        return client;
+    },
+    clientEx: (options = ECXP.intents) => {
+        const client = new EAX.discord.Client(options);
         const commands = ECXE.commands();
         client.commands = commands;
         return client;
@@ -48,17 +52,30 @@ const ECXM = {
 };
 
 const ECXCB = {
-    callbackClientReady: (client) => { console.log(`Login bem sucedido (${client.user.id}@${client.user.username})`); },
-}
+    ClientReady: (client) => { console.log(`Login bem sucedido (${client.user.id}@${client.user.username})`); },
+    InteractionCreate: (interaction) => {
+        if (!interaction.isChatInputCommand()) return;
+        interaction.client.commands.get(interaction.commandName);
+    },
+};
 
 const ECX = {
-    client: (options) => {
+    clientBase: (options) => {
         return ECXM.client(options);
+    },
+    clientStored: (options) => {
+        return ECXM.clientEx(options);
+    },
+    client: (options) => {
+        const client = ECXM.clientEx(options);
+        client.once(EAX.discord.Events.ClientReady, ECXCB.ClientReady);
+        client.on(EAX.discord.Events.InteractionCreate, ECXCB.InteractionCreate);
+        return client;
     },
     login: (options) => {
         const client = ECXM.client(options);
         client.login(EBX.client.token);
-        client.once(EAX.discord.Events.ClientReady, ECXCB.callbackClientReady);
+        client.once(EAX.discord.Events.ClientReady, ECXCB.ClientReady);
         return client;
     },
     command: (name, description, content) => {
@@ -73,7 +90,7 @@ const ECX = {
     deployCommands: () => {
         const rest = ECXM.rest();
         const client = ECXM.client();
-        const commands = ECXE.commands((x) => {return x.data.toJSON()});
+        const commands = ECXE.commands((x) => { return x.data.toJSON() });
         (async () => {
             await client.login(EBX.client.token);
             await rest.put(EAX.discord.Routes.applicationCommands(client.user.id), { body: commands, });
