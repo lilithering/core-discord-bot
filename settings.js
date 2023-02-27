@@ -45,7 +45,11 @@ const ECXM = {
     client: (options = ECXP.intents) => {
         const client = new EAX.discord.Client(options);
         const commands = ECXE.commands();
-        client.commands = commands;
+        client.commands = new EAX.discord.Collection();
+        for (command in commands)
+        {
+            client.commands.set(command.data.name, command);
+        }
         return client;
     },
     rest: () => { return new EAX.discord.REST({ version: '10' }).setToken(EBX.client.token); },
