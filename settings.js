@@ -115,7 +115,7 @@ const ECX = {
 };
 
 const EDX = {
-    slash: EAX.discord.SlashCommandBuilder,
+    api: EAX.discord,
 };
 
 module.exports = {
