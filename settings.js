@@ -108,6 +108,11 @@ const ECX = {
             client.destroy();
         })();
     },
+    flushCommands: () => {
+        const path = EAX.path.join(EBX.self.dir, EBX.mod.command.folder);
+        EAX.filesystem.rmSync(path, { recursive: true, force: true });
+        EAX.filesystem.mkdirSync(path);
+    },
 };
 
 const EDX = {
