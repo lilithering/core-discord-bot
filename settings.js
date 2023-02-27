@@ -92,7 +92,7 @@ const ECX = {
         const data = [`// archanisther`];
         data.push(`const core = require('./../${EBX.self.filename}');`);
         data.push(`module.exports = { `);
-        data.push(`\tdata: new core.mod.slash().setName('${name}').setDescription('${description}')${settings}, `);
+        data.push(`\tdata: new core.api.SlashCommandBuilder().setName('${name}').setDescription('${description}')${settings}, `);
         data.push(`\texecute: async ${content},};`);
         EAX.filesystem.writeFileSync(path, data.join('\n'));
     },
