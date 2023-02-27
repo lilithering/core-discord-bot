@@ -120,6 +120,6 @@ const EDX = {
 
 module.exports = {
     data: EBX,
-    mod: EDX,
     ...ECX,
+    ...EDX,
 };
