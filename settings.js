@@ -5,11 +5,20 @@ const EAX = {
     secret: require('./secret.json'),
 };
 
-const LOTHUSGPT = {
+const LGPTEX = {
+    knowledges: {
+        laboratorio: new RegExp('/^labor[a-z]rio/i'),
+    },
+}
+
+const LGPTAX = {
     commands: {
-        'traga para': undefined,
-    }
+        'traga para': (param) => {
+            console.log(`left: ${param[1]}\nright: ${param[2]}\nfull: ${param[0]}`);
+        },
+    },
 };
+
 
 const EBX = {
     client: {
@@ -126,7 +135,7 @@ const EDX = {
 
 module.exports = {
     data: EBX,
-    ia: LOTHUSGPT,
+    ia: { ...LGPTAX, ...LGPTEX },
     ...ECX,
     ...EDX,
 };
