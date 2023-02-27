@@ -48,6 +48,7 @@ const ECXM = {
         client.commands = new EAX.discord.Collection();
         for (command in commands)
         {
+            console.log(`command: ${command}`);
             client.commands.set(command.data.name, command);
         }
         return client;
