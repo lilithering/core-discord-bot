@@ -25,8 +25,25 @@ const ECXP = {
     intents: { intents: new EAX.discord.IntentsBitField(EAX.discord.GatewayIntentBits.Guilds, EAX.discord.GatewayIntentBits.GuildMessages, EAX.discord.GatewayIntentBits.MessageContent) },
 }
 
+const ECXE = {
+    commands: (custom = (x) => { return x }) => {
+        const commands = [];
+        const files = EAX.filesystem.readdirSync(EAX.path.join(EBX.self.dir, EBX.mod.command.folder));
+        for (file of files) {
+            const path = './'.concat(EAX.path.join(EBX.mod.command.folder, file));
+            commands.push(require(path));
+        };
+        return commands.map(custom(x));
+    },
+};
+
 const ECXM = {
-    client: (options = ECXP.intents) => { return new EAX.discord.Client(options) },
+    client: (options = ECXP.intents) => {
+        const client = new EAX.discord.Client(options);
+        const commands = ECXE.commands();
+        client.commands = commands;
+        return client;
+    },
     rest: () => { return new EAX.discord.REST({ version: '10' }).setToken(EBX.client.token); },
 };
 
@@ -56,12 +73,7 @@ const ECX = {
     deployCommands: () => {
         const rest = ECXM.rest();
         const client = ECXM.client();
-        const commands = [];
-        const files = EAX.filesystem.readdirSync(EAX.path.join(EBX.self.dir, EBX.mod.command.folder));
-        for (file of files) {
-            const path = './'.concat(EAX.path.join(EBX.mod.command.folder, file));
-            commands.push(require(path).data.toJSON());
-        };
+        const commands = ECXE.commands((x) => {return x.data.toJSON()});
         (async () => {
             await client.login(EBX.client.token);
             await rest.put(EAX.discord.Routes.applicationCommands(client.user.id), { body: commands, });
