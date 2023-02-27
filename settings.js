@@ -46,7 +46,7 @@ const ECXM = {
         const client = new EAX.discord.Client(options);
         const commands = ECXE.commands();
         client.commands = new EAX.discord.Collection();
-        for (command in commands)
+        for (command of commands)
         {
             console.log(`command: ${command}`);
             client.commands.set(command.data.name, command);
