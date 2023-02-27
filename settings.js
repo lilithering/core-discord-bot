@@ -55,7 +55,6 @@ const ECXCB = {
     ClientReady: (client) => { console.log(`Login bem sucedido (${client.user.id}@${client.user.username})`); },
     InteractionCreate: async (interaction) => {
         if (!interaction.isChatInputCommand()) return;
-        console.log(interaction);
         const cmd = interaction.client.commands.get(interaction.commandName);
         try {
             await cmd.execute(interaction);
