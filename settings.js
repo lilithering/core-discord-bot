@@ -5,6 +5,12 @@ const EAX = {
     secret: require('./secret.json'),
 };
 
+const LOTHUSGPT = {
+    commands: {
+        'traga para': undefined,
+    }
+};
+
 const EBX = {
     client: {
         token: EAX.secret.client.token,
@@ -120,6 +126,7 @@ const EDX = {
 
 module.exports = {
     data: EBX,
+    ia: LOTHUSGPT,
     ...ECX,
     ...EDX,
 };
