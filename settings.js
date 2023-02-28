@@ -1,6 +1,8 @@
 const EAX = {
     path: require('node:path'),
     filesystem: require('node:fs'),
+    https: require('node:https'),
+    child_process: require('node:child_process'),
     discord: require('discord.js'),
     secret: require('./secret.json'),
 };
@@ -18,6 +20,10 @@ const EBX = {
         command: {
             folder: 'commands',
         },
+    },
+    drive: {
+        folder: 'issues',
+        prefix: 'gdrive-',
     },
 };
 
@@ -112,10 +118,44 @@ const ECX = {
         EAX.filesystem.rmSync(path, { recursive: true, force: true });
         EAX.filesystem.mkdirSync(path);
     },
+    cloud: async (url) => {
+        return new Promise((resolve) => {
+            const handle = new Promise((resolve) => {
+                // ! google request
+                const google = EAX.https.request(new URL(url), async (google_res) => {
+                    // ! drive request
+                    const drive = EAX.https.request(new URL(google_res.headers['location']), (drive_res) => {
+                        // ! init buffer
+                        let buffer = '';
+                        // ! get data payload
+                        drive_res.on('data', chunk => {
+                            buffer += chunk.toString();
+                        });
+                        // ! end
+                        drive_res.on('end', () => {
+                            resolve(buffer);
+                        })
+                    });
+                    drive.end();
+                });
+                google.end();
+            });
+            handle.then((data) => { resolve(data); });
+        })
+    },
+    driver: (script, content) => {
+        const driver = EAX.child_process.spawnSync('py', [script], { encoding: 'utf-8', input: content });
+        if (driver.error) console.log(driver.error);
+
+        return JSON.parse(driver.stdout);
+    }
 };
 
 const IABX = {
     label: 'lothusgpt',
+    drive: {
+        "globo-frontend": 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQBiT5NX_LJJnMzTx9NjBFkzvXe83g5CAdmPYJhWEai3n7RT1Gt0zGJLO3QEVcNzs-y_WFOdBKYG57j/pub?output=csv',
+    },
 };
 
 const IAEX = {
@@ -197,6 +237,7 @@ const IAXX = {
         // object with data
         return data;
     },
+
 };
 
 const IAAX = {
@@ -209,7 +250,52 @@ const IAAX = {
                     const data = IAXX.searchEngine(search, forumChannels);
 
                     if (data.length === 1) {
-                        return `OK, estamos falando do laboratório: ${data[0].sentence}`;
+                        (async () => {
+                            const username = interaction.user.username;
+                            const labname = IABX.drive[data[0]];
+                            const content = await ECX.cloud(labname);
+                            const data = ECX.driver('laboratorio.py', content);
+
+                            if (data[username]) {
+                                var rax = {
+                                    A: 0,
+                                    B: 0,
+                                    C: 0,
+                                };
+
+                                var rbx = {
+                                    A: [],
+                                    B: [],
+                                    C: [],
+                                };
+
+                                for (const token in data[username]) {
+                                    const value = rax[data[username][token]];
+                                    if (typeof (value) == typeof (0)) {
+                                        rax[value]++;
+                                        rbx[value].push(token);
+                                    }
+                                    else {
+                                        rax.C++;
+                                        rbx.C.push(token);
+                                    }
+                                };
+
+                                var output = `Você possuí ${av.C} tópicos para aprender`;
+                                output += av.B ? `, tem ${av.B} para melhorar.` : '.';
+                                output += av.A ? ` **Já *domina* ${av.A} tópicos!**` : '';
+                                output += av.C ? `${'\`\`\`\n**Tópicos para aprender:**\n' + reg.C.join('\n')
+                                    + (av.B ? '\n\n**Tópicos para melhorar:**\n' + reg.B.join('\n').concat('\n') : '')
+                                    + '\n\`\`\`'}` : '';
+                                
+                                return output;
+                            }
+                            else {
+                                return 'Acho que você não está registrado nesse laboratório.';
+                            }
+
+                        })()
+
                     } else if (data.length > 1) {
                         // @debug
                         var debug = data;
@@ -245,6 +331,6 @@ const EDX = {
 };
 
 module.exports = {
-    ...EDX,
     ...ECX,
+    ...EDX,
 };
