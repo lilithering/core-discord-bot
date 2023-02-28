@@ -49,7 +49,7 @@ const IACX = {
         for (content in IAAX.trigger) {
             console.log(`content> ${content}`);
             console.log(`data> ${data}`);
-            console.log(`IAXX.trigger[content]> ${IAXX.trigger[content]}`);
+            console.log(`IAAX.trigger[content]> ${IAAX.trigger[content]}`);
             console.log(`expr> ${data.value.match(IAAX.trigger[content][0])}`);
             if (data.value.match(IAAX.trigger[content][0])) {
                 return IAAX.trigger[content][1](data.value);
