@@ -170,6 +170,8 @@ const IAAX = {
             for (const about in IAEX.knowledge) {
                 if (match = data.value.match(IAEX.knowledge[about])) {
                     const forumChannels = IAXX.channelsByType(interaction, 'ForumChannel');
+                    // @debug
+                    console.log(`forumChannels> ${forumChannels}`)
                     const data = IAXX.searchEngine(match[1], forumChannels);
                     if (data.length === 1) {
                         return `OK, estamos falando do laboratório: ${data[0].sentence}`;
