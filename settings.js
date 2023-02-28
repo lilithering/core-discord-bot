@@ -170,9 +170,8 @@ const IAXX = {
             console.log('debug>');
             console.log(debug);
             console.log(debug);
-            
 
-            data.push({ score: RA ? RA.sort().pop() : base.length, sentence: word });
+            data.push({ score: RA.sort().pop(), sentence: word });
         };
         if (data) {
             if (data[0] === 0) {
