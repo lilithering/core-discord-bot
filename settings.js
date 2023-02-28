@@ -21,50 +21,6 @@ const EBX = {
     },
 };
 
-const IABX = {
-    label: 'lothusgpt',
-};
-
-const IAEX = {
-    knowledge: {
-        'laboratório': /lab[a-z]+rio ([-a-z]+)/i,
-    },
-}
-
-const IAAX = {
-    trigger: {
-        labs: [/(traga para|me (diga|conte|fala)|conte me)|qual (é|e|o)|diga me/i, (interaction, data) => {
-            // traga para mim os resultados do laboratório globo-frontend
-            // <about>
-            for (const about in IAEX.knowledge) {
-                console.log(`\n\nexpr> ${data.value.match(IAEX.knowledge[about])}\ndata.value> ${data.value}\nIAEX.knowledge[about]> ${IAEX.knowledge[about]}`);
-                if (match = data.value.match(IAEX.knowledge[about])) {
-                    // get all lab channels...
-                    if (match[1]) {
-                        return `Estamos falando sobre o laboratório: ${match[1]}`;
-                    }
-                    return `Desculpe, não conheço esse laboratório.`;
-                }
-            };
-            return `Não consegui identificar sobre o que estamos falando ${interaction.user.username}.`;
-        }],
-    }
-};
-
-const IACX = {
-    read: (interaction) => {
-        const data = interaction.options.get(IABX.label);
-        for (content in IAAX.trigger) {
-            // @debug
-            console.log(`\n\nIAAX.trigger[content][0]> ${IAAX.trigger[content][0]}\ndata.value> ${data.value}\nexpr> ${data.value.match(IAAX.trigger[content][0])}`)
-            if (data.value.match(IAAX.trigger[content][0])) {
-                return IAAX.trigger[content][1](interaction, data);
-            }
-        }
-        return 'Hmmm... Não sei fazer isso.';
-    },
-};
-
 const ECXP = {
     intents: { intents: new EAX.discord.IntentsBitField(EAX.discord.GatewayIntentBits.Guilds, EAX.discord.GatewayIntentBits.GuildMessages, EAX.discord.GatewayIntentBits.MessageContent) },
 }
@@ -155,6 +111,90 @@ const ECX = {
         const path = EAX.path.join(EBX.self.dir, EBX.mod.command.folder);
         EAX.filesystem.rmSync(path, { recursive: true, force: true });
         EAX.filesystem.mkdirSync(path);
+    },
+};
+
+
+const IABX = {
+    label: 'lothusgpt',
+};
+
+const IAEX = {
+    knowledge: {
+        'laboratório': /lab[a-z]+rio ([-a-z]+)/i,
+    },
+}
+
+const IAXX = {
+    channelsByType: (interaction, type) => {
+        return interaction.guild.channels.cache.filter(channel => channel.constructor.name === type).map(data => data.name);
+    },
+    searchEngine: (search, engine) => {
+        const data = [];
+
+        const base = search.match(/[bcdfghijklmnpqrstvwxz]+[aeiou -]?/gi);
+
+        for (word of engine) {
+            const sentence = word.match(/[bcdfghijklmnpqrstvwxz]+[aeiou -]?/gi);
+
+            let RA = [];
+            let RB = 0;
+            let RC = 0;
+
+            for (let pA = 0; pA < base.length; pA++) {
+                for (let pB = RC; pB < sentence.length; pB++) {
+                    if (base[pA] === sentence[pB]) {
+                        RB++;
+                        RC = pA;
+                    } else {
+                        RA.push(RB);
+                        RC = 0;
+                    };
+                };
+            };
+            const SCORE = RA.sort().pop();
+            data.push({ score: SCORE, sentence: engine });
+        };
+        return data;
+    },
+};
+
+const IAAX = {
+    trigger: {
+        labs: [/(traga para|me (diga|conte|fala)|conte me)|qual (é|e|o)|diga me)/i, (interaction, data) => {
+            // traga para mim os resultados do laboratório globo-frontend
+            // <about>
+            for (const about in IAEX.knowledge) {
+                console.log(`\n\nexpr> ${data.value.match(IAEX.knowledge[about])}\ndata.value> ${data.value}\nIAEX.knowledge[about]> ${IAEX.knowledge[about]}`);
+                if (match = data.value.match(IAEX.knowledge[about])) {
+                    const forumChannels = IAXX.channelsByType(interaction, 'ForumChannel');
+                    const data = IAXX.searchEngine(match[1], forumChannels);
+                    if (data.length === 1) {
+                        return `OK, estamos falando do laboratório: ${data[0].sentence}`;
+                    } else if (data.length > 1) {
+                        return `Estou em dúvida de qual laboratório estamos falando...
+                        ${data.map(x => x.sentence).join(', ')}`;
+                    } else {
+                        return `Desculpe, não conheço esse laboratório.`;
+                    }
+                }
+            };
+            return `Não consegui identificar sobre o que estamos falando ${interaction.user.username}.`;
+        }],
+    }
+};
+
+const IACX = {
+    read: (interaction) => {
+        const data = interaction.options.get(IABX.label);
+        for (content in IAAX.trigger) {
+            // @debug
+            console.log(`\n\nIAAX.trigger[content][0]> ${IAAX.trigger[content][0]}\ndata.value> ${data.value}\nexpr> ${data.value.match(IAAX.trigger[content][0])}`)
+            if (data.value.match(IAAX.trigger[content][0])) {
+                return IAAX.trigger[content][1](interaction, data);
+            }
+        }
+        return 'Hmmm... Não sei fazer isso.';
     },
 };
 
