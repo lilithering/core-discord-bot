@@ -33,10 +33,12 @@ const IAEX = {
 
 const IAAX = {
     trigger: {
-        labs: [/(traga para|me diga)/i, (word) => {
+        labs: [/(traga para|me diga)/i, (data) => {
             // @debug
-            console.log(`word> ${word}`);
+            console.log(`word> ${data.value}`);
             // traga para mim os resultados do laboratório globo-frontend
+            
+            return true;
         }],
     }
 };
@@ -47,13 +49,8 @@ const IACX = {
     },
     read: (data) => {
         for (content in IAAX.trigger) {
-            console.log(`content> ${content}`);
-            console.log(`data> ${data}`);
-            console.log(`IAAX.trigger[content]> ${IAAX.trigger[content]}`);
-            console.log(`expr> ${data.value.match(IAAX.trigger[content][0])}`);
-            return true;
             if (data.value.match(IAAX.trigger[content][0])) {
-                return IAAX.trigger[content][1](data.value);
+                return IAAX.trigger[content][1](data);
             }
         }
         return null;
