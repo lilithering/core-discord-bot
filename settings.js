@@ -337,7 +337,6 @@ const IAAX = {
 };
 
 const EDX = {
-    debug: '',
     data: EBX,
     api: EAX.discord,
     ia: { ...IAAX, ...IAAXRA, ...IABX, ...IABXRA },
