@@ -178,6 +178,9 @@ const IAEX = {
                         const labname = IABX.drive[data[0].sentence];
                         const content = await ECX.cloud(labname);
                         const path = IABEX.script('laboratorio.py');
+                        // @debug
+                        console.log('PATH>');
+                        console.log(path);
                         const dataframe = ECX.driver(path, content);
 
                         if (dataframe[username]) {
