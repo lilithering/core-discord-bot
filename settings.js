@@ -162,9 +162,15 @@ const IAXX = {
             console.log('debug>');
             console.log(debug);
 
+            var debug = RA.lenght
+            console.log('debug>');
+            console.log(debug);
+
             var debug = RA.lenght ? RA.sort().pop() : base.length;
             console.log('debug>');
             console.log(debug);
+            console.log(debug);
+            
 
             data.push({ score: RA ? RA.sort().pop() : base.length, sentence: word });
         };
