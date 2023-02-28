@@ -127,7 +127,7 @@ const IAEX = {
 
 const IAXX = {
     channelsByType: (interaction, type) => {
-        return Array.from(interaction.guild.channels.cache.filter(channel => channel.constructor.name === type));
+        return interaction.guild.channels.cache.filter(channel => channel.constructor.name === type);
     },
     searchEngine: (search, engine) => {
         const data = [];
@@ -170,7 +170,7 @@ const IAAX = {
             for (const about in IAEX.knowledge) {
                 if (match = data.value.match(IAEX.knowledge[about])) {
                     const forumChannels = IAXX.channelsByType(interaction, 'ForumChannel');
-                    const search = match[1]
+                    const search = match[1];
                     // @debug
                     console.log(`forumChannels> ${forumChannels}`)
                     return
