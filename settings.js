@@ -157,7 +157,11 @@ const IAXX = {
                     };
                 };
             };
-            const SCORE = RA === [] ? RA.sort().pop() : base.length;
+            // @debug
+            const debug = RA;
+            console.log('debug>');
+            console.log(debug);
+            const SCORE = RA.sort().pop();
             data.push({ score: SCORE, sentence: word });
         };
         if (data) {
