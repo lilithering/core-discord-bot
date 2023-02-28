@@ -141,7 +141,7 @@ const IAXX = {
         for (word of engine) {
             const sentence = word.match(setup);
 
-            let RA = [ base.length ];
+            let RA = [];
             let RB = 0;
             let RC = 0;
 
@@ -158,19 +158,9 @@ const IAXX = {
                 };
             };
             // @debug
-            var debug = RA;
-            console.log('debug>');
-            console.log(debug);
-
-            var debug = RA.lenght
-            console.log('debug>');
-            console.log(debug);
-
-            var debug = RA.lenght ? RA.sort().pop() : base.length;
-            console.log('debug>');
-            console.log(debug);
-            console.log(debug);
-
+            if (!(RA)) {
+                console.log('undefined here!')
+            }
             data.push({ score: RA.sort().pop(), sentence: word });
         };
         if (data) {
