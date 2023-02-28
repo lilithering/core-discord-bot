@@ -281,8 +281,8 @@ const IABXRA = {
                                 output.push(rax.A ? `**Já *domina* ${rax.A} tópicos!**\n` : '\n');
                                 output.push(rax.C ? `\n**Tópicos para aprender:**\n${rbx.C.join('\n')}\n` : '');
                                 output.push(rax.B ? `\n**Tópicos para melhorar:**\n${rbx.B.join('\n')}\n` : '');
+                                output.push(`\n> Dados: *${docurl.slice(0, -3).concat('xlsx')}*`);
                                 output.push(`\n> Alterações no Google Drive pode levar até 5 min para fazer efeito.`);
-                                output.push(`\n> **Dados: *${docurl.slice(0, -3).concat('xlsx')}***`);
 
                                 resolve(output.join(''));
                             }
