@@ -143,7 +143,7 @@ const ECX = {
         })
     },
     driver: (script, content) => {
-        const path = EAX.path.join(EBX.self.dir, EBX.mod.drivers.drivers.folder, script);
+        const path = EAX.path.join(EBX.self.dir, EBX.mod.drivers.folder, script);
         const driver = EAX.child_process.spawnSync('py', [path], { encoding: 'utf-8', input: content });
         if (driver.stderr) console.log(Error(driver.stderr));
 
