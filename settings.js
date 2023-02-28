@@ -305,7 +305,7 @@ const IABXRA = {
     },
 }
 
-const IAAXRA = {
+const IAAXRAX = {
     cognition: {
         default: [/(traga para|me (diga|conte|fala)|conte me|qual (é|e|o)|diga me|fala ai)/i, async (interaction, data) => {
             for (const about in IABXRA.knowledge) {
@@ -320,17 +320,14 @@ const IAAXRA = {
     },
 };
 
-const IAAX = {
+const IAAXRA = {
     read: async (interaction) => {
         const data = interaction.options.get(IABX.label);
-        console.log('Start deferReply')
-        interaction.deferReplys();
-        console.log('End deferReply')
 
-        for (const content in IAAXRA.cognition) {
-            const expr = IAAXRA.cognition[content][0];
+        for (const content in IAAXRAX.cognition) {
+            const expr = IAAXRAX.cognition[content][0];
             if (data.value.match(expr)) {
-                const engine = IAAXRA.cognition[content][1];
+                const engine = IAAXRAX.cognition[content][1];
                 return await engine(interaction, data);
             }
         }
@@ -338,10 +335,26 @@ const IAAX = {
     },
 };
 
+const IAAX = {
+    init: (interaction) => {
+        interaction.deferReply().then(async () => {
+            const content = await IAAXRA.read(interaction);
+
+            if (content) {
+                interaction.editReply({ content: content, ephemeral: true });
+                return;
+            };
+
+            interaction.editReply({ content: `${interaction.user.username}, não consegui entender o que disse.`, ephemeral: true });
+            return;
+        });
+    },
+};
+
 const EDX = {
     data: EBX,
     api: EAX.discord,
-    ia: { ...IAAX, ...IAAXRA, ...IABX, ...IABXRA },
+    ia: { ...IAAX, ...IABX, ...IABXRA },
 };
 
 module.exports = {
