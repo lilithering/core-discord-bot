@@ -61,7 +61,7 @@ const IACX = {
                 return IAAX.trigger[content][1](data);
             }
         }
-        return null;
+        return 'Hmmm... Não sei fazer isso.';
     },
 };
 
