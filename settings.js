@@ -32,7 +32,7 @@ const IAEX = {
 }
 
 const IAAX = {
-    commands: {
+    trigger: {
         labs: [/(traga para|me diga)/i, (word) => {
             // @debug
             console.log(`word> ${word}`);
@@ -44,6 +44,14 @@ const IAAX = {
 const IACX = {
     get: (interaction) => {
         return interaction.options.get(IABX.label);
+    },
+    read: (data) => {
+        for (content in IAAX.trigger) {
+            if (data.value.match(IAAX.trigger[content][0])) {
+                return IAAX.trigger[content][1](data.value);
+            }
+        }
+        return null;
     },
 };
 
