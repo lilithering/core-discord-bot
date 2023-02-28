@@ -153,6 +153,7 @@ const IAXX = {
                 };
             };
             const SCORE = RA.sort().pop();
+            if (SCORE === 0) return [];
             data.push({ score: SCORE, sentence: engine });
         };
         return data;
@@ -172,7 +173,7 @@ const IAAX = {
                     if (data.length === 1) {
                         return `OK, estamos falando do laboratório: ${data[0].sentence}`;
                     } else if (data.length > 1) {
-                        return `Estou em dúvida sobre qual laboratório estamos falando...\n>${data.map((x) => { x.sentence }).join(', ')}`;
+                        return `Estou em dúvida sobre qual laboratório estamos falando...\n>${data.map(x => x.sentence).join(', ')}`;
                     } else {
                         return `Desculpe, não conheço esse laboratório.`;
                     }
