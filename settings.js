@@ -141,7 +141,7 @@ const IAXX = {
         for (word of engine) {
             const sentence = word.match(setup);
 
-            let RA = [];
+            let RA = [ base.length ];
             let RB = 0;
             let RC = 0;
 
