@@ -301,7 +301,7 @@ const IAXX = {
 
 const IAAX = {
     cognition: {
-        default: [/(traga para|me (diga|conte|fala)|conte me|qual (é|e|o)|diga me)/i, async (interaction, data) => {
+        default: [/(traga para|me (diga|conte|fala)|conte me|qual (é|e|o)|diga me|fala ai)/i, async (interaction, data) => {
             for (const about in IAEX.knowledge) {
                 const expr = IAEX.knowledge[about][0];
                 if (match = data.value.match(expr)) {
