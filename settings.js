@@ -207,7 +207,10 @@ const IAEX = {
                             output.push(rax.B ? `**Tópicos para melhorar:**\n${rbx.B.join('\n')}\n` : '');
                             output.push(`${'\`\`\`'}`);
 
-                            resolve(output.join('\n'));
+                            //@debug
+                            console.log('OUTPUT>')
+                            console.log(output.join('\n'))
+                            resolve('DEBUG STRING');
                         }
                         else {
                             resolve('Acho que você não está registrado nesse laboratório.');
