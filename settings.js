@@ -161,7 +161,7 @@ const IAXX = {
 
 const IAAX = {
     trigger: {
-        labs: [/(traga para|me (diga|conte|fala)|conte me)|qual (é|e|o)|diga me)/i, (interaction, data) => {
+        labs: [/(traga para|me (diga|conte|fala)|conte me|qual (é|e|o)|diga me)/i, (interaction, data) => {
             // traga para mim os resultados do laboratório globo-frontend
             // <about>
             for (const about in IAEX.knowledge) {
