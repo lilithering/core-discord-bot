@@ -89,7 +89,7 @@ const ECX = {
     },
     command: (name, description, content, settings = '') => {
         const path = EAX.path.join(EBX.self.dir, EBX.mod.command.folder, name.concat('.js'));
-        const data = [`// archanisther`];
+        const data = [`// autogen core-discord-bot made by Lilithering, https://github.com/lilithering/core-discord-bot`];
         data.push(`const core = require('./../${EBX.self.filename}');`);
         data.push(`module.exports = { `);
         data.push(`\tdata: new core.api.SlashCommandBuilder().setName('${name}').setDescription('${description}')${settings}, `);
@@ -153,8 +153,12 @@ const IAXX = {
                 };
             };
             const SCORE = RA.sort().pop();
-            if (SCORE === 0) return [];
             data.push({ score: SCORE, sentence: engine });
+        };
+        if (data) {
+            if (data[0] === 0) {
+                return [];
+            };
         };
         return data;
     },
@@ -163,10 +167,7 @@ const IAXX = {
 const IAAX = {
     trigger: {
         labs: [/(traga para|me (diga|conte|fala)|conte me|qual (é|e|o)|diga me)/i, (interaction, data) => {
-            // traga para mim os resultados do laboratório globo-frontend
-            // <about>
             for (const about in IAEX.knowledge) {
-                console.log(`\n\nexpr> ${data.value.match(IAEX.knowledge[about])}\ndata.value> ${data.value}\nIAEX.knowledge[about]> ${IAEX.knowledge[about]}`);
                 if (match = data.value.match(IAEX.knowledge[about])) {
                     const forumChannels = IAXX.channelsByType(interaction, 'ForumChannel');
                     const data = IAXX.searchEngine(match[1], forumChannels);
@@ -188,8 +189,6 @@ const IACX = {
     read: (interaction) => {
         const data = interaction.options.get(IABX.label);
         for (content in IAAX.trigger) {
-            // @debug
-            console.log(`\n\nIAAX.trigger[content][0]> ${IAAX.trigger[content][0]}\ndata.value> ${data.value}\nexpr> ${data.value.match(IAAX.trigger[content][0])}`)
             if (data.value.match(IAAX.trigger[content][0])) {
                 return IAAX.trigger[content][1](interaction, data);
             }
