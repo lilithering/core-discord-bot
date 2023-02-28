@@ -33,7 +33,7 @@ const IAEX = {
 
 const IAAX = {
     trigger: {
-        labs: [/(traga para|me (diga|conte|fala)|conte me)|qual (é|e|o)/i, (interaction, data) => {
+        labs: [/(traga para|me (diga|conte|fala)|conte me)|qual (é|e|o)|diga me/i, (interaction, data) => {
             // @debug
             console.log(`word> ${data.value}`);
             // traga para mim os resultados do laboratório globo-frontend
