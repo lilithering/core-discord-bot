@@ -158,11 +158,13 @@ const IAXX = {
                 };
             };
             // @debug
-            const debug = RA;
+            var debug = RA;
             console.log('debug>');
             console.log(debug);
-            const SCORE = RA.sort().pop();
-            data.push({ score: SCORE, sentence: word });
+            var debug = RA ? RA.sort().pop() : base.length;
+            console.log('debug>');
+            console.log(debug);
+            data.push({ score: RA ? RA.sort().pop() : base.length, sentence: word });
         };
         if (data) {
             if (data[0] === 0) {
