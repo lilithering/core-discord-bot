@@ -56,7 +56,6 @@ const IACX = {
         const data = interaction.options.get(IABX.label);
         for (content in IAAX.trigger) {
             if (data.value.match(IAAX.trigger[content][0])) {
-                console.log('executing codex...');
                 return IAAX.trigger[content][1](interaction, data);
             }
         }
