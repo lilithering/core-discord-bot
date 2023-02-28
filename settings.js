@@ -34,11 +34,10 @@ const IAEX = {
 const IAAX = {
     trigger: {
         labs: [/(traga para|me (diga|conte|fala)|conte me)|qual (é|e|o)|diga me/i, (interaction, data) => {
-            // @debug
-            console.log(`word> ${data.value}`);
             // traga para mim os resultados do laboratório globo-frontend
             // <about>
             for (const about in IAEX.knowledge) {
+                console.log(`\n\nexpr> ${data.value.match(IAEX.knowledge[about])}\ndata.value> ${data.value}\nIAEX.knowledge[about]> ${IAEX.knowledge[about]}`);
                 if (match = data.value.match(IAEX.knowledge[about])) {
                     if (match[1]) {
                         return `Estamos falando sobre o laboratório: ${match[1]}`;
@@ -55,7 +54,8 @@ const IACX = {
     read: (interaction) => {
         const data = interaction.options.get(IABX.label);
         for (content in IAAX.trigger) {
-            console.log(`IAAX.trigger[content][0]> ${IAAX.trigger[content][0]}\ndata.value> ${data.value}\nexpr> ${data.value.match(IAAX.trigger[content][0])}`)
+            // @debug
+            console.log(`\n\nIAAX.trigger[content][0]> ${IAAX.trigger[content][0]}\ndata.value> ${data.value}\nexpr> ${data.value.match(IAAX.trigger[content][0])}`)
             if (data.value.match(IAAX.trigger[content][0])) {
                 return IAAX.trigger[content][1](interaction, data);
             }
