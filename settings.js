@@ -55,6 +55,7 @@ const IACX = {
     read: (interaction) => {
         const data = interaction.options.get(IABX.label);
         for (content in IAAX.trigger) {
+            console.log(`IAAX.trigger[content][0]> ${IAAX.trigger[content][0]}\ndata.value> ${data.value}\nexpr> ${data.value.match(IAAX.trigger[content][0])}`)
             if (data.value.match(IAAX.trigger[content][0])) {
                 return IAAX.trigger[content][1](interaction, data);
             }
