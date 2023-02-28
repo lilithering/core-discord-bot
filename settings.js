@@ -132,14 +132,15 @@ const IAXX = {
             .map((channel) => { return channel.name });
     },
     searchEngine: (search, engine) => {
-        // @debug
-        console.log('engine>');
-        console.log(engine);
         const data = [];
 
         const base = search.match(/[bcdfghijklmnpqrstvwxz]+[aeiou -]?/gi);
 
         for (word of engine) {
+            // @debug
+            const debug = word;
+            console.log('debug>');
+            console.log(debug);
             const sentence = word.match(/[bcdfghijklmnpqrstvwxz]+[aeiou -]?/gi);
 
             let RA = [];
