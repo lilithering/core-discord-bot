@@ -161,7 +161,70 @@ const IABX = {
 
 const IAEX = {
     knowledge: {
-        'laboratório': /lab[a-z]+rio ([-a-z]+)/i,
+        'laboratório': [/lab[a-z]+rio ([-a-z]+)/i, async (interaction, match) => {
+            return new Promise(resolve => {
+                const forumChannels = IAXX.channelsByType(interaction, 'ForumChannel');
+                const search = match[1];
+                const data = IAXX.searchEngine(search, forumChannels);
+
+                if (data.length === 1) {
+                    (async () => {
+                        const username = interaction.user.username;
+                        const labname = IABX.drive[data[0].sentence];
+                        const content = await ECX.cloud(labname);
+                        const dataframe = ECX.driver('laboratorio.py', content);
+
+                        if (dataframe[username]) {
+                            var rax = {
+                                A: 0,
+                                B: 0,
+                                C: 0,
+                            };
+
+                            var rbx = {
+                                A: [],
+                                B: [],
+                                C: [],
+                            };
+
+                            for (const token in dataframe[username]) {
+                                const value = dataframe[username][token];
+                                if (typeof (rax[value]) == typeof (0)) {
+                                    rax[value]++;
+                                    rbx[value].push(token);
+                                }
+                                else {
+                                    rax.C++;
+                                    rbx.C.push(token);
+                                }
+                            };
+
+                            var output = `Você possuí ${rax.C} tópicos para aprender`;
+                            output += rax.B ? `, tem ${rax.B} para melhorar.` : '.';
+                            output += rax.A ? ` **Já *domina* ${rax.A} tópicos!**` : '';
+                            output += rax.C ? `${'\`\`\`\n**Tópicos para aprender:**\n' + rbx.C.join('\n')
+                                + (rax.B ? '\n\n**Tópicos para melhorar:**\n' + rbx.B.join('\n').concat('\n') : '')
+                                + '\n\`\`\`'}` : '';
+
+                            resolve(output);
+                        }
+                        else {
+                            resolve('Acho que você não está registrado nesse laboratório.');
+                        }
+                    })();
+                }
+                else if (data.length > 1) {
+                    // @debug
+                    var debug = data;
+                    console.log('debug>');
+                    console.log(debug);
+                    resolve(`Estou em dúvida sobre qual laboratório estamos falando...\n> ${data.map(x => x.sentence).join(', ')}`);
+                }
+                else {
+                    resolve(`Desculpe, não conheço esse laboratório.`);
+                };
+            });
+        }],
     },
 }
 
@@ -242,75 +305,16 @@ const IAXX = {
 };
 
 const IAAX = {
-    pro: {
-        labs: [/(traga para|me (diga|conte|fala)|conte me|qual (é|e|o)|diga me)/i, async (interaction, data) => {
-            return new Promise((resolve) => {
-                for (const about in IAEX.knowledge) {
-                    if (match = data.value.match(IAEX.knowledge[about])) {
-                        const forumChannels = IAXX.channelsByType(interaction, 'ForumChannel');
-                        const search = match[1];
-                        const data = IAXX.searchEngine(search, forumChannels);
-
-                        if (data.length === 1) {
-                            (async () => {
-                                const username = interaction.user.username;
-                                const labname = IABX.drive[data[0].sentence];
-                                const content = await ECX.cloud(labname);
-                                const dataframe = ECX.driver('laboratorio.py', content);
-
-                                if (dataframe[username]) {
-                                    var rax = {
-                                        A: 0,
-                                        B: 0,
-                                        C: 0,
-                                    };
-
-                                    var rbx = {
-                                        A: [],
-                                        B: [],
-                                        C: [],
-                                    };
-
-                                    for (const token in dataframe[username]) {
-                                        const value = dataframe[username][token];
-                                        if (typeof (rax[value]) == typeof (0)) {
-                                            rax[value]++;
-                                            rbx[value].push(token);
-                                        }
-                                        else {
-                                            rax.C++;
-                                            rbx.C.push(token);
-                                        }
-                                    };
-
-                                    var output = `Você possuí ${rax.C} tópicos para aprender`;
-                                    output += rax.B ? `, tem ${rax.B} para melhorar.` : '.';
-                                    output += rax.A ? ` **Já *domina* ${rax.A} tópicos!**` : '';
-                                    output += rax.C ? `${'\`\`\`\n**Tópicos para aprender:**\n' + rbx.C.join('\n')
-                                        + (rax.B ? '\n\n**Tópicos para melhorar:**\n' + rbx.B.join('\n').concat('\n') : '')
-                                        + '\n\`\`\`'}` : '';
-
-                                    resolve(output);
-                                }
-                                else {
-                                    resolve('Acho que você não está registrado nesse laboratório.');
-                                }
-                            })()
-                        }
-                        else if (data.length > 1) {
-                            // @debug
-                            var debug = data;
-                            console.log('debug>');
-                            console.log(debug);
-                            resolve(`Estou em dúvida sobre qual laboratório estamos falando...\n> ${data.map(x => x.sentence).join(', ')}`);
-                        }
-                        else {
-                            resolve(`Desculpe, não conheço esse laboratório.`);
-                        }
-                    }
-                    resolve(`Não consegui identificar sobre o que estamos falando ${interaction.user.username}.`);
-                };
-            });
+    cognition: {
+        default: [/(traga para|me (diga|conte|fala)|conte me|qual (é|e|o)|diga me)/i, async (interaction, data) => {
+            for (const about in IAEX.knowledge) {
+                const expr = IAEX.knowledge[about][0];
+                if (match = data.value.match(expr)) {
+                    const engine = IAEX.knowledge[about][1]
+                    return await engine(interaction, match);
+                }
+                return `Não consegui identificar sobre o que estamos falando ${interaction.user.username}.`;
+            };
         }],
     },
 };
@@ -318,9 +322,12 @@ const IAAX = {
 const IACX = {
     read: async (interaction) => {
         const data = interaction.options.get(IABX.label);
-        for (content in IAAX.pro) {
-            if (data.value.match(IAAX.pro[content][0])) {
-                return await IAAX.pro[content][1](interaction, data);
+
+        for (const content in IAAX.cognition) {
+            const expr = IAAX.cognition[content][0];
+            if (data.value.match(expr)) {
+                const engine = IAAX.cognition[content][1];
+                return await engine(interaction, data);
             }
         }
         return 'Hmmm... Não sei fazer isso.';
