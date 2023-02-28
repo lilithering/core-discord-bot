@@ -169,46 +169,51 @@ const IAEX = {
                 if (data.length === 1) {
                     (async () => {
                         const username = interaction.user.username;
-                        const labname = IABX.drive[data[0].sentence];
-                        const content = await ECX.cloud(labname);
-                        const dataframe = ECX.driver('laboratorio.py', content);
+                        const docurl = IABX.drive[data[0].sentence];
+                        if (docurl) {
+                            const content = await ECX.cloud(docurl);
+                            const dataframe = ECX.driver('laboratorio.py', content);
 
-                        if (dataframe[username]) {
-                            var rax = {
-                                A: 0,
-                                B: 0,
-                                C: 0,
-                            };
+                            if (dataframe[username]) {
+                                var rax = {
+                                    A: 0,
+                                    B: 0,
+                                    C: 0,
+                                };
 
-                            var rbx = {
-                                A: [],
-                                B: [],
-                                C: [],
-                            };
+                                var rbx = {
+                                    A: [],
+                                    B: [],
+                                    C: [],
+                                };
 
-                            for (const token in dataframe[username]) {
-                                const value = dataframe[username][token];
-                                if (typeof (rax[value]) == typeof (0)) {
-                                    rax[value]++;
-                                    rbx[value].push(token);
-                                }
-                                else {
-                                    rax.C++;
-                                    rbx.C.push(token);
-                                }
-                            };
+                                for (const token in dataframe[username]) {
+                                    const value = dataframe[username][token];
+                                    if (typeof (rax[value]) == typeof (0)) {
+                                        rax[value]++;
+                                        rbx[value].push(token);
+                                    }
+                                    else {
+                                        rax.C++;
+                                        rbx.C.push(token);
+                                    }
+                                };
 
-                            var output = []
-                            output.push(`Você possuí ${rax.C} tópicos para aprender`);
-                            output.push(rax.B ? `, tem ${rax.B} para melhorar. ` : '. ');
-                            output.push(rax.A ? `**Já *domina* ${rax.A} tópicos!**\n` : '\n');
-                            output.push(rax.C ? `\n**Tópicos para aprender:**\n${rbx.C.join('\n')}\n` : '');
-                            output.push(rax.B ? `\n**Tópicos para melhorar:**\n${rbx.B.join('\n')}\n` : '');
+                                var output = []
+                                output.push(`Você possuí ${rax.C} tópicos para aprender`);
+                                output.push(rax.B ? `, tem ${rax.B} para melhorar. ` : '. ');
+                                output.push(rax.A ? `**Já *domina* ${rax.A} tópicos!**\n` : '\n');
+                                output.push(rax.C ? `\n**Tópicos para aprender:**\n${rbx.C.join('\n')}\n` : '');
+                                output.push(rax.B ? `\n**Tópicos para melhorar:**\n${rbx.B.join('\n')}\n` : '');
 
-                            resolve(output.join(''));
+                                resolve(output.join(''));
+                            }
+                            else {
+                                resolve('Acho que você não está registrado nesse laboratório.');
+                            }
                         }
                         else {
-                            resolve('Acho que você não está registrado nesse laboratório.');
+                            resolve(`Não consegui acessar a planilha com as informações.`);
                         }
                     })();
                 }
