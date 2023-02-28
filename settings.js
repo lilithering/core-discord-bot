@@ -308,8 +308,8 @@ const IAAX = {
                             resolve(`Desculpe, não conheço esse laboratório.`);
                         }
                     }
+                    resolve(`Não consegui identificar sobre o que estamos falando ${interaction.user.username}.`);
                 };
-                resolve(`Não consegui identificar sobre o que estamos falando ${interaction.user.username}.`);
             });
         }],
     },
