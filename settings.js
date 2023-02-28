@@ -320,10 +320,7 @@ const IACX = {
         const data = interaction.options.get(IABX.label);
         for (content in IAAX.pro) {
             if (data.value.match(IAAX.pro[content][0])) {
-                // @debug
-                console.log('PRO>')
-                console.log(await IAAX.pro[content][1](interaction, data))
-                return 'Some content';
+                return await IAAX.pro[content][1](interaction, data);
             }
         }
         return 'Hmmm... Não sei fazer isso.';
