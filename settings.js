@@ -51,6 +51,7 @@ const IACX = {
             console.log(`data> ${data}`);
             console.log(`IAAX.trigger[content]> ${IAAX.trigger[content]}`);
             console.log(`expr> ${data.value.match(IAAX.trigger[content][0])}`);
+            return true;
             if (data.value.match(IAAX.trigger[content][0])) {
                 return IAAX.trigger[content][1](data.value);
             }
