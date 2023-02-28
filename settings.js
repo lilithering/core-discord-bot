@@ -157,11 +157,11 @@ const IAXX = {
                     };
                 };
             };
-            // @debug
-            if (!(RA)) {
-                console.log('undefined here!')
+            if (RA?.length) {
+                data.push({ score: RA.sort().pop(), sentence: word });
+            } else {
+                data.push({ score: base.length, sentence: word });
             }
-            data.push({ score: RA.sort().pop(), sentence: word });
         };
         if (data) {
             if (data[0] === 0) {
