@@ -129,7 +129,7 @@ const IAXX = {
     channelsByType: (interaction, type) => {
         return interaction.guild.channels.cache
             .filter(channel => channel.constructor.name === type)
-            .filter(channel => channel.has('name'))
+            .filter(channel => channel.name ? true : false)
             .map(channel => console.log(channel.name));
     },
     searchEngine: (search, engine) => {
