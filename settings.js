@@ -52,13 +52,11 @@ const IAAX = {
 };
 
 const IACX = {
-    get: (interaction) => {
-        return interaction.options.get(IABX.label);
-    },
-    read: (data) => {
+    read: (interaction) => {
+        const data = interaction.options.get(IABX.label);
         for (content in IAAX.trigger) {
             if (data.value.match(IAAX.trigger[content][0])) {
-                return IAAX.trigger[content][1](data);
+                return IAAX.trigger[content][1](interaction, data);
             }
         }
         return 'Hmmm... Não sei fazer isso.';
