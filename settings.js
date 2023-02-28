@@ -39,6 +39,9 @@ const IAAX = {
             for (const about in IAEX.knowledge) {
                 console.log(`\n\nexpr> ${data.value.match(IAEX.knowledge[about])}\ndata.value> ${data.value}\nIAEX.knowledge[about]> ${IAEX.knowledge[about]}`);
                 if (match = data.value.match(IAEX.knowledge[about])) {
+                    // @debug
+                    console.log(interaction.guild);
+                    // get all lab channels...
                     if (match[1]) {
                         return `Estamos falando sobre o laboratório: ${match[1]}`;
                     }
