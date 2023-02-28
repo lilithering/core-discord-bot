@@ -137,6 +137,8 @@ const IAXX = {
 
         const base = search.match(setup);
 
+        const RX = 0;
+
         for (word of engine) {
             const sentence = word.match(setup);
 
@@ -156,17 +158,22 @@ const IAXX = {
                     };
                 };
             };
+            const score = RA.sort().pop();
             if (RA?.length) {
-                data.push({ score: RA.sort().pop(), sentence: word });
+                if (score > RX) {
+                    data = [];
+                    data.push({ score: score, sentence: word });
+                    RX = score;
+                } else if (score == RX) {
+                    data.push({ score: score, sentence: word });
+                }
             } else {
-                data.push({ score: base.length, sentence: word });
-            }
-        };
-        if (data) {
-            if (data[0] === 0) {
-                return [];
+                score = base.length;
+                data = [];
+                data.push({ score: score, sentence: word });
             };
         };
+        // object with data
         return data;
     },
 };
