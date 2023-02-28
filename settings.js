@@ -132,6 +132,9 @@ const IAXX = {
             .map((channel) => { return channel.name });
     },
     searchEngine: (search, engine) => {
+        // @debug
+        console.log('engine>');
+        console.log(engine);
         const data = [];
 
         const base = search.match(/[bcdfghijklmnpqrstvwxz]+[aeiou -]?/gi);
@@ -173,10 +176,6 @@ const IAAX = {
                 if (match = data.value.match(IAEX.knowledge[about])) {
                     const forumChannels = IAXX.channelsByType(interaction, 'ForumChannel');
                     const search = match[1];
-                    // @debug
-                    console.log(`forumChannels> ${forumChannels}`)
-                    return
-
                     const data = IAXX.searchEngine(search, forumChannels);
                     if (data.length === 1) {
                         return `OK, estamos falando do laboratório: ${data[0].sentence}`;
