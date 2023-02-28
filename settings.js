@@ -155,6 +155,7 @@ const IABX = {
     label: 'lothusgpt',
     drive: {
         "globo-frontend": 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQBiT5NX_LJJnMzTx9NjBFkzvXe83g5CAdmPYJhWEai3n7RT1Gt0zGJLO3QEVcNzs-y_WFOdBKYG57j/pub?output=csv',
+        "debug": 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTi2YJaT8mnyeySSVD7RJZcicqw7XGZHwJEHBaMGatWnMgEB8tfqo5fPc_5N--PDN6zlvJYwKsABT0Z/pub?output=csv',
     },
 };
 
@@ -235,7 +236,7 @@ const IABXRAX = {
 
 const IABXRA = {
     knowledge: {
-        'laboratório': [/lab[a-z]+rio ([-a-z]+)/i, async (interaction, match) => {
+        'laboratório': [/lab[a-z]+ ([-a-z]+)/i, async (interaction, match) => {
             return new Promise(resolve => {
                 const forumChannels = IABXRAX.channelsByType(interaction, 'ForumChannel');
                 const search = match[1];
@@ -336,8 +337,8 @@ const IAAXRA = {
 };
 
 const IAAX = {
-    init: (interaction) => {
-        interaction.deferReply().then(async () => {
+    init: (interaction, ephemeral = false) => {
+        interaction.deferReply(ephemeral ? { ephemeral: true } : undefined).then(async () => {
             const content = await IAAXRA.read(interaction);
 
             if (content) {
