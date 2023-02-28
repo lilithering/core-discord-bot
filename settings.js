@@ -140,10 +140,6 @@ const IAXX = {
 
         for (word of engine) {
             const sentence = word.match(setup);
-            // @debug
-            const debug = sentence;
-            console.log('debug>');
-            console.log(debug);
 
             let RA = [];
             let RB = 0;
@@ -181,10 +177,15 @@ const IAAX = {
                     const forumChannels = IAXX.channelsByType(interaction, 'ForumChannel');
                     const search = match[1];
                     const data = IAXX.searchEngine(search, forumChannels);
+                    // @debug
+                    const debug = data;
+                    console.log('debug>');
+                    console.log(debug);
+
                     if (data.length === 1) {
                         return `OK, estamos falando do laboratório: ${data[0].sentence}`;
                     } else if (data.length > 1) {
-                        return `Estou em dúvida sobre qual laboratório estamos falando...\n>${data.map(x => x.sentence).join(', ')}`;
+                        return `Estou em dúvida sobre qual laboratório estamos falando...\n> ${data.map(x => x.sentence).join(', ')}`;
                     } else {
                         return `Desculpe, não conheço esse laboratório.`;
                     }
