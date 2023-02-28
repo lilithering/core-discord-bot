@@ -255,8 +255,6 @@ const IAAX = {
                             const labname = IABX.drive[data[0].sentence];
                             const content = await ECX.cloud(labname);
                             // @debug
-                            console.log('CLOUD>');
-                            console.log(content);
                             const dataframe = ECX.driver('laboratorio.py', content);
                             // @debug
                             console.log('DATAFRAME>');
