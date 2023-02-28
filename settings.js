@@ -324,11 +324,11 @@ const IAAX = {
 const IACX = {
     read: async (interaction) => {
         const data = interaction.options.get(IABX.label);
+        interaction.deferReply();
 
         for (const content in IAAX.cognition) {
             const expr = IAAX.cognition[content][0];
             if (data.value.match(expr)) {
-                interaction.deferReply();
                 const engine = IAAX.cognition[content][1];
                 return await engine(interaction, data);
             }
