@@ -307,6 +307,7 @@ const IAAX = {
             for (const about in IAEX.knowledge) {
                 const expr = IAEX.knowledge[about][0];
                 if (match = data.value.match(expr)) {
+                    interaction.deferReply();
                     const engine = IAEX.knowledge[about][1]
                     return await engine(interaction, match);
                 }
