@@ -170,6 +170,8 @@ const IAEX = {
                     (async () => {
                         const username = interaction.user.username;
                         const docurl = IABX.drive[data[0].sentence];
+                        console.log('docurl>')
+                        console.log(docurl)
                         if (docurl) {
                             const content = await ECX.cloud(docurl);
                             const dataframe = ECX.driver('laboratorio.py', content);
