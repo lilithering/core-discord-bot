@@ -331,7 +331,7 @@ const IAAXRA = {
                 return await engine(interaction, data);
             }
         }
-        return 'Hmmm... Não sei fazer isso.';
+        return `Desculpe ${interaction.user.username}, não consigo entender o que quer dizer.`;
     },
 };
 
