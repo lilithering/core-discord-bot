@@ -27,7 +27,7 @@ const IABX = {
 
 const IAEX = {
     knowledge: {
-        'laboratório': /^labor[a-z]rio ([-a-z])/i,
+        'laboratório': /labor[a-z]rio ([-a-z]+)/i,
     },
 }
 
