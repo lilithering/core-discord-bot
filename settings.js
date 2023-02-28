@@ -183,6 +183,10 @@ const IAAX = {
                     if (data.length === 1) {
                         return `OK, estamos falando do laboratório: ${data[0].sentence}`;
                     } else if (data.length > 1) {
+                        // @debug
+                        var debug = data;
+                        console.log('debug>');
+                        console.log(debug);
                         return `Estou em dúvida sobre qual laboratório estamos falando...\n> ${data.map(x => x.sentence).join(', ')}`;
                     } else {
                         return `Desculpe, não conheço esse laboratório.`;
