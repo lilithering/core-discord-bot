@@ -134,10 +134,12 @@ const IAXX = {
     searchEngine: (search, engine) => {
         const data = [];
 
-        const base = search.match(/[bcdfghijklmnpqrstvwxz]+[aeiou -]?/gi);
+        const setup = /[bcdfghjklmnpqrstvwxz]+[aeiou -]?/gi;
+
+        const base = search.match(setup);
 
         for (word of engine) {
-            const sentence = word.match(/[bcdfghijklmnpqrstvwxz]+[aeiou -]?/gi);
+            const sentence = word.match(setup);
             // @debug
             const debug = sentence;
             console.log('debug>');
@@ -151,7 +153,8 @@ const IAXX = {
                 for (let pB = RC; pB < sentence.length; pB++) {
                     if (base[pA] === sentence[pB]) {
                         RB++;
-                        RC = pA;
+                        RC = pB + 1;
+                        break;
                     } else {
                         RA.push(RB);
                         RC = 0;
@@ -159,7 +162,7 @@ const IAXX = {
                 };
             };
             const SCORE = RA.sort().pop();
-            data.push({ score: SCORE, sentence: engine });
+            data.push({ score: SCORE, sentence: word });
         };
         if (data) {
             if (data[0] === 0) {
