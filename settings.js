@@ -252,7 +252,7 @@ const IAAX = {
                     if (data.length === 1) {
                         (async () => {
                             const username = interaction.user.username;
-                            const labname = IABX.drive[dataframe[0]];
+                            const labname = IABX.drive[data[0]];
                             const content = await ECX.cloud(labname);
                             const dataframe = ECX.driver('laboratorio.py', content);
 
