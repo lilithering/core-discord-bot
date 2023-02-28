@@ -161,9 +161,11 @@ const IAXX = {
             var debug = RA;
             console.log('debug>');
             console.log(debug);
-            var debug = RA ? RA.sort().pop() : base.length;
+
+            var debug = RA === undefined ? RA.sort().pop() : base.length;
             console.log('debug>');
             console.log(debug);
+
             data.push({ score: RA ? RA.sort().pop() : base.length, sentence: word });
         };
         if (data) {
