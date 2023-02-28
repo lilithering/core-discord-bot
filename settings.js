@@ -146,6 +146,9 @@ const ECX = {
     driver: (script, content) => {
         const driver = EAX.child_process.spawnSync('py', [script], { encoding: 'utf-8', input: content });
         if (driver.error) console.error(driver.error);
+        if (driver.stderr) {
+            console.log(Error(driver.stderr))
+          }
 
         return JSON.parse(driver.stdout);
     }
