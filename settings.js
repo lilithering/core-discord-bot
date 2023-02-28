@@ -143,7 +143,7 @@ const ECX = {
         })
     },
     driver: (script, content) => {
-        const path = EAX.path.join(EBX.self.dir, script);
+        const path = EAX.path.join(EBX.self.dir, EBX.drivers.folder, script);
         const driver = EAX.child_process.spawnSync('py', [path], { encoding: 'utf-8', input: content });
         if (driver.stderr) console.log(Error(driver.stderr));
 
@@ -158,12 +158,6 @@ const IABX = {
     },
 };
 
-const IABEX = {
-    script: (name) => {
-        return EAX.path.join(EBX.self.dir, EBX.drivers.folder, name);
-    },
-}
-
 const IAEX = {
     knowledge: {
         'laboratório': [/lab[a-z]+rio ([-a-z]+)/i, async (interaction, match) => {
@@ -177,11 +171,7 @@ const IAEX = {
                         const username = interaction.user.username;
                         const labname = IABX.drive[data[0].sentence];
                         const content = await ECX.cloud(labname);
-                        const path = IABEX.script('laboratorio.py');
-                        // @debug
-                        console.log('PATH>');
-                        console.log(path);
-                        const dataframe = ECX.driver(path, content);
+                        const dataframe = ECX.driver('laboratorio.py', content);
 
                         if (dataframe[username]) {
                             var rax = {
