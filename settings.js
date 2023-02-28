@@ -142,12 +142,12 @@ const IAXX = {
         for (word of engine) {
             const sentence = word.match(setup);
 
-            let RA = [];
-            let RB = 0;
-            let RC = 0;
+            var RA = [];
+            var RB = 0;
+            var RC = 0;
 
-            for (let pA = 0; pA < base.length; pA++) {
-                for (let pB = RC; pB < sentence.length; pB++) {
+            for (var pA = 0; pA < base.length; pA++) {
+                for (var pB = RC; pB < sentence.length; pB++) {
                     if (base[pA] === sentence[pB]) {
                         RB++;
                         RC = pB + 1;
@@ -158,7 +158,7 @@ const IAXX = {
                     };
                 };
             };
-            const score = RA.sort().pop();
+            var score = RA.sort().pop();
             if (RA?.length) {
                 if (score > RX) {
                     data = [];
