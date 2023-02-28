@@ -137,11 +137,11 @@ const IAXX = {
         const base = search.match(/[bcdfghijklmnpqrstvwxz]+[aeiou -]?/gi);
 
         for (word of engine) {
+            const sentence = word.match(/[bcdfghijklmnpqrstvwxz]+[aeiou -]?/gi);
             // @debug
-            const debug = word;
+            const debug = sentence;
             console.log('debug>');
             console.log(debug);
-            const sentence = word.match(/[bcdfghijklmnpqrstvwxz]+[aeiou -]?/gi);
 
             let RA = [];
             let RB = 0;
