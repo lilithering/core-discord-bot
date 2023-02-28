@@ -285,8 +285,8 @@ const IAAX = {
                                 var output = `Você possuí ${rax.C} tópicos para aprender`;
                                 output += rax.B ? `, tem ${rax.B} para melhorar.` : '.';
                                 output += rax.A ? ` **Já *domina* ${rax.A} tópicos!**` : '';
-                                output += rax.C ? `${'\`\`\`\n**Tópicos para aprender:**\n' + reg.C.join('\n')
-                                    + (rax.B ? '\n\n**Tópicos para melhorar:**\n' + reg.B.join('\n').concat('\n') : '')
+                                output += rax.C ? `${'\`\`\`\n**Tópicos para aprender:**\n' + rbx.C.join('\n')
+                                    + (rax.B ? '\n\n**Tópicos para melhorar:**\n' + rbx.B.join('\n').concat('\n') : '')
                                     + '\n\`\`\`'}` : '';
 
                                 return output;
