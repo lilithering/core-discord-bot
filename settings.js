@@ -202,10 +202,8 @@ const IAEX = {
                             output.push(`Você possuí ${rax.C} tópicos para aprender`);
                             output.push(rax.B ? `, tem ${rax.B} para melhorar. ` : '. ');
                             output.push(rax.A ? `**Já *domina* ${rax.A} tópicos!**` : '');
-                            output.push(`${'\n\`\`\`'}`);
-                            output.push(rax.C ? `**Tópicos para aprender:**\n${rbx.C.join('\n')}\n` : '');
+                            output.push(rax.C ? `\n\n**Tópicos para aprender:**\n${rbx.C.join('\n')}\n` : '');
                             output.push(rax.B ? `**Tópicos para melhorar:**\n${rbx.B.join('\n')}\n` : '');
-                            output.push(`${'\`\`\`'}`);
 
                             resolve(output.join(''));
                         }
