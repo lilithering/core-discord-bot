@@ -21,9 +21,8 @@ const EBX = {
             folder: 'commands',
         },
     },
-    drive: {
-        folder: 'issues',
-        prefix: 'gdrive-',
+    drivers: {
+        folder: 'drivers',
     },
 };
 
@@ -159,6 +158,12 @@ const IABX = {
     },
 };
 
+const IABEX = {
+    script: (name) => {
+        return EAX.path.join(EBX.self.dir, EBX.drivers.folder, name);
+    },
+}
+
 const IAEX = {
     knowledge: {
         'laboratório': [/lab[a-z]+rio ([-a-z]+)/i, async (interaction, match) => {
@@ -172,7 +177,8 @@ const IAEX = {
                         const username = interaction.user.username;
                         const labname = IABX.drive[data[0].sentence];
                         const content = await ECX.cloud(labname);
-                        const dataframe = ECX.driver('laboratorio.py', content);
+                        const path = IABEX.script('laboratorio.py');
+                        const dataframe = ECX.driver(path, content);
 
                         if (dataframe[username]) {
                             var rax = {
@@ -206,7 +212,7 @@ const IAEX = {
                             output.push(`${'\n\`\`\`'}`);
                             output.push(rax.C ? `**Tópicos para aprender:**\n${rbx.C.join('\n')}\n` : '');
                             output.push(rax.B ? `**Tópicos para melhorar:**\n${rbx.B.join('\n')}\n` : '');
-                            output.push(`${'\n\`\`\`'}`);
+                            output.push(`${'\`\`\`'}`);
 
                             resolve(output.join('\n'));
                         }
