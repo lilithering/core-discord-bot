@@ -320,6 +320,7 @@ const IACX = {
         const data = interaction.options.get(IABX.label);
 
         for (const content in IAAX.cognition) {
+            interaction.deferReply();
             const expr = IAAX.cognition[content][0];
             if (data.value.match(expr)) {
                 const engine = IAAX.cognition[content][1];
