@@ -209,7 +209,7 @@ const IAEX = {
 
                             //@debug
                             console.log('OUTPUT>')
-                            console.log(output.join('\n'))
+                            console.log(output.join(''))
                             resolve('DEBUG STRING');
                         }
                         else {
@@ -313,7 +313,7 @@ const IAAX = {
                     const engine = IAEX.knowledge[about][1]
                     return await engine(interaction, match);
                 }
-                return `Não consegui identificar sobre o que estamos falando ${interaction.user.username}.`;
+                return `Não consegui identificar sobre o que estamos conversando ${interaction.user.username}. Desculpe.`;
             };
         }],
     },
