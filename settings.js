@@ -252,11 +252,11 @@ const IAAX = {
                     if (data.length === 1) {
                         (async () => {
                             const username = interaction.user.username;
-                            const labname = IABX.drive[data[0]];
+                            const labname = IABX.drive[dataframe[0]];
                             const content = await ECX.cloud(labname);
-                            const data = ECX.driver('laboratorio.py', content);
+                            const dataframe = ECX.driver('laboratorio.py', content);
 
-                            if (data[username]) {
+                            if (dataframe[username]) {
                                 var rax = {
                                     A: 0,
                                     B: 0,
@@ -269,8 +269,8 @@ const IAAX = {
                                     C: [],
                                 };
 
-                                for (const token in data[username]) {
-                                    const value = rax[data[username][token]];
+                                for (const token in dataframe[username]) {
+                                    const value = rax[dataframe[username][token]];
                                     if (typeof (value) == typeof (0)) {
                                         rax[value]++;
                                         rbx[value].push(token);
