@@ -199,14 +199,16 @@ const IAEX = {
                                 }
                             };
 
-                            var output = `Você possuí ${rax.C} tópicos para aprender`;
-                            output += rax.B ? `, tem ${rax.B} para melhorar.` : '.';
-                            output += rax.A ? ` **Já *domina* ${rax.A} tópicos!**` : '';
-                            output += rax.C ? `${'\`\`\`\n**Tópicos para aprender:**\n' + rbx.C.join('\n')
-                                + (rax.B ? '\n\n**Tópicos para melhorar:**\n' + rbx.B.join('\n').concat('\n') : '')
-                                + '\n\`\`\`'}` : '';
+                            var output = []
+                            output.push(`Você possuí ${rax.C} tópicos para aprender`);
+                            output.push(rax.B ? `, tem ${rax.B} para melhorar. ` : '. ');
+                            output.push(rax.A ? `**Já *domina* ${rax.A} tópicos!**` : '');
+                            output.push(`${'\n\`\`\`'}`);
+                            output.push(rax.C ? `**Tópicos para aprender:**\n${rbx.C.join('\n')}\n` : '');
+                            output.push(rax.B ? `**Tópicos para melhorar:**\n${rbx.B.join('\n')}\n` : '');
+                            output.push(`${'\n\`\`\`'}`);
 
-                            resolve(output);
+                            resolve(output.join('\n'));
                         }
                         else {
                             resolve('Acho que você não está registrado nesse laboratório.');
@@ -214,10 +216,6 @@ const IAEX = {
                     })();
                 }
                 else if (data.length > 1) {
-                    // @debug
-                    var debug = data;
-                    console.log('debug>');
-                    console.log(debug);
                     resolve(`Estou em dúvida sobre qual laboratório estamos falando...\n> ${data.map(x => x.sentence).join(', ')}`);
                 }
                 else {
