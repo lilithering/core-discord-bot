@@ -131,26 +131,35 @@ const IAXX = {
             .map((channel) => { return channel.name });
     },
     searchEngine: (search, engine) => {
-        const data = [];
+        // ! init data arr
+        var data = [];
 
-        const setup = /[bcdfghjklmnpqrstvwxz]+[aeiou -]?/gi;
+        // ! make base expr
+        const base = /[bcdfghjklmnpqrstvwxz]+[aeiou -]?/gi;
 
-        const base = search.match(setup);
+        // ! make main object
+        const main = search.match(base);
 
+        // ! setup main registry
         var RX = 0;
 
+        // <word>
         for (word of engine) {
-            const sentence = word.match(setup);
+            // ! make mirror object
+            const mirror = word.match(base);
 
+            // ! setup sub registry
             var RA = [];
             var RB = 0;
             var RC = 0;
 
-            for (var pA = 0; pA < base.length; pA++) {
-                for (var pB = RC; pB < sentence.length; pB++) {
-                    if (base[pA] === sentence[pB]) {
+            // <main_depth>
+            for (var main_depth = 0; main_depth < main.length; main_depth++) {
+                // <mirror_depth>
+                for (var mirror_depth = RC; mirror_depth < mirror.length; mirror_depth++) {
+                    if (main[main_depth] === mirror[mirror_depth]) {
                         RB++;
-                        RC = pB + 1;
+                        RC = mirror_depth + 1;
                         break;
                     } else {
                         RA.push(RB);
@@ -158,18 +167,30 @@ const IAXX = {
                     };
                 };
             };
+
+            // ! set word score
             var score = RA.sort().pop();
+
             if (RA?.length) {
                 if (score > RX) {
+                    // ! clear data
                     data = [];
-                    data.push({ score: score, sentence: word });
+                    // ! set new main registry
                     RX = score;
+                    // ! put data
+                    data.push({ score: score, sentence: word });
                 } else if (score == RX) {
+                    // ! put data
                     data.push({ score: score, sentence: word });
                 }
             } else {
-                score = base.length;
+                // ! set score value if undefined
+                score = main.length;
+                // ! clear data
                 data = [];
+                // ! set new main registry
+                RX = main.length;
+                // ! put data
                 data.push({ score: score, sentence: word });
             };
         };
