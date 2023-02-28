@@ -17,49 +17,32 @@ const EBX = {
         dir: EAX.path.parse(__filename).dir,
     },
     mod: {
-        command: {
+        commands: {
             folder: 'commands',
         },
-    },
-    drivers: {
-        folder: 'drivers',
+        drivers: {
+            folder: 'drivers',
+        },
     },
 };
 
-const ECXP = {
+const ECXB = {
     intents: { intents: new EAX.discord.IntentsBitField(EAX.discord.GatewayIntentBits.Guilds, EAX.discord.GatewayIntentBits.GuildMessages, EAX.discord.GatewayIntentBits.MessageContent) },
 }
 
-const ECXE = {
+const ECXRAX = {
     commands: (custom = (x) => { return x }) => {
         const commands = [];
-        const files = EAX.filesystem.readdirSync(EAX.path.join(EBX.self.dir, EBX.mod.command.folder));
+        const files = EAX.filesystem.readdirSync(EAX.path.join(EBX.self.dir, EBX.mod.commands.folder));
         for (file of files) {
-            const path = './'.concat(EAX.path.join(EBX.mod.command.folder, file));
+            const path = './'.concat(EAX.path.join(EBX.mod.commands.folder, file));
             commands.push(require(path));
         };
         return commands.map(custom);
     },
 };
 
-const ECXM = {
-    base: (options = ECXP.intents) => {
-        const client = new EAX.discord.Client(options);
-        return client;
-    },
-    client: (options = ECXP.intents) => {
-        const client = new EAX.discord.Client(options);
-        const commands = ECXE.commands();
-        client.commands = new EAX.discord.Collection();
-        for (command of commands) {
-            client.commands.set(command.data.name, command);
-        }
-        return client;
-    },
-    rest: () => { return new EAX.discord.REST({ version: '10' }).setToken(EBX.client.token); },
-};
-
-const ECXCB = {
+const ECXRA2 = {
     ClientReady: (client) => { console.log(`Login bem sucedido (${client.user.id}@${client.user.username})`); },
     InteractionCreate: async (interaction) => {
         if (!interaction.isChatInputCommand()) return;
@@ -73,27 +56,44 @@ const ECXCB = {
     },
 };
 
+const ECXRA = {
+    base: (options = ECXB.intents) => {
+        const client = new EAX.discord.Client(options);
+        return client;
+    },
+    client: (options = ECXB.intents) => {
+        const client = new EAX.discord.Client(options);
+        const commands = ECXRAX.commands();
+        client.commands = new EAX.discord.Collection();
+        for (command of commands) {
+            client.commands.set(command.data.name, command);
+        }
+        return client;
+    },
+    rest: () => { return new EAX.discord.REST({ version: '10' }).setToken(EBX.client.token); },
+};
+
 const ECX = {
     clientBase: (options) => {
-        return ECXM.base(options);
+        return ECXRA.base(options);
     },
     clientStored: (options) => {
-        return ECXM.client(options);
+        return ECXRA.client(options);
     },
     client: (options) => {
-        const client = ECXM.client(options);
-        client.once(EAX.discord.Events.ClientReady, ECXCB.ClientReady);
-        client.on(EAX.discord.Events.InteractionCreate, ECXCB.InteractionCreate);
+        const client = ECXRA.client(options);
+        client.once(EAX.discord.Events.ClientReady, ECXRA2.ClientReady);
+        client.on(EAX.discord.Events.InteractionCreate, ECXRA2.InteractionCreate);
         return client;
     },
     login: (options) => {
-        const client = ECXM.base(options);
+        const client = ECXRA.base(options);
         client.login(EBX.client.token);
-        client.once(EAX.discord.Events.ClientReady, ECXCB.ClientReady);
+        client.once(EAX.discord.Events.ClientReady, ECXRA2.ClientReady);
         return client;
     },
     command: (name, description, content, settings = '') => {
-        const path = EAX.path.join(EBX.self.dir, EBX.mod.command.folder, name.concat('.js'));
+        const path = EAX.path.join(EBX.self.dir, EBX.mod.commands.folder, name.concat('.js'));
         const data = [`// autogen core-discord-bot made by Lilithering, https://github.com/lilithering/core-discord-bot`];
         data.push(`const core = require('./../${EBX.self.filename}');`);
         data.push(`module.exports = { `);
@@ -102,9 +102,9 @@ const ECX = {
         EAX.filesystem.writeFileSync(path, data.join('\n'));
     },
     deployCommands: () => {
-        const rest = ECXM.rest();
-        const client = ECXM.base();
-        const commands = ECXE.commands((x) => { return x.data.toJSON() });
+        const rest = ECXRA.rest();
+        const client = ECXRA.base();
+        const commands = ECXRAX.commands((x) => { return x.data.toJSON() });
         (async () => {
             await client.login(EBX.client.token);
             await rest.put(EAX.discord.Routes.applicationCommands(client.user.id), { body: commands, });
@@ -113,7 +113,7 @@ const ECX = {
         })();
     },
     flushCommands: () => {
-        const path = EAX.path.join(EBX.self.dir, EBX.mod.command.folder);
+        const path = EAX.path.join(EBX.self.dir, EBX.mod.commands.folder);
         EAX.filesystem.rmSync(path, { recursive: true, force: true });
         EAX.filesystem.mkdirSync(path);
     },
@@ -143,7 +143,7 @@ const ECX = {
         })
     },
     driver: (script, content) => {
-        const path = EAX.path.join(EBX.self.dir, EBX.drivers.folder, script);
+        const path = EAX.path.join(EBX.self.dir, EBX.mod.drivers.drivers.folder, script);
         const driver = EAX.child_process.spawnSync('py', [path], { encoding: 'utf-8', input: content });
         if (driver.stderr) console.log(Error(driver.stderr));
 
@@ -158,79 +158,7 @@ const IABX = {
     },
 };
 
-const IAEX = {
-    knowledge: {
-        'laboratório': [/lab[a-z]+rio ([-a-z]+)/i, async (interaction, match) => {
-            return new Promise(resolve => {
-                const forumChannels = IAXX.channelsByType(interaction, 'ForumChannel');
-                const search = match[1];
-                const data = IAXX.searchEngine(search, forumChannels);
-
-                if (data.length === 1) {
-                    (async () => {
-                        const username = interaction.user.username;
-                        const docurl = IABX.drive[data[0].sentence];
-                        console.log('docurl>')
-                        console.log(docurl)
-                        if (docurl) {
-                            const content = await ECX.cloud(docurl);
-                            const dataframe = ECX.driver('laboratorio.py', content);
-
-                            if (dataframe[username]) {
-                                var rax = {
-                                    A: 0,
-                                    B: 0,
-                                    C: 0,
-                                };
-
-                                var rbx = {
-                                    A: [],
-                                    B: [],
-                                    C: [],
-                                };
-
-                                for (const token in dataframe[username]) {
-                                    const value = dataframe[username][token];
-                                    if (typeof (rax[value]) == typeof (0)) {
-                                        rax[value]++;
-                                        rbx[value].push(token);
-                                    }
-                                    else {
-                                        rax.C++;
-                                        rbx.C.push(token);
-                                    }
-                                };
-
-                                var output = []
-                                output.push(`Você possuí ${rax.C} tópicos para aprender`);
-                                output.push(rax.B ? `, tem ${rax.B} para melhorar. ` : '. ');
-                                output.push(rax.A ? `**Já *domina* ${rax.A} tópicos!**\n` : '\n');
-                                output.push(rax.C ? `\n**Tópicos para aprender:**\n${rbx.C.join('\n')}\n` : '');
-                                output.push(rax.B ? `\n**Tópicos para melhorar:**\n${rbx.B.join('\n')}\n` : '');
-
-                                resolve(output.join(''));
-                            }
-                            else {
-                                resolve('Acho que você não está registrado nesse laboratório.');
-                            }
-                        }
-                        else {
-                            resolve(`Não consegui acessar a planilha com as informações.`);
-                        }
-                    })();
-                }
-                else if (data.length > 1) {
-                    resolve(`Estou em dúvida sobre qual laboratório estamos falando...\n> ${data.map(x => x.sentence).join(', ')}`);
-                }
-                else {
-                    resolve(`Desculpe, não conheço esse laboratório.`);
-                };
-            });
-        }],
-    },
-}
-
-const IAXX = {
+const IABXRAX = {
     channelsByType: (interaction, type) => {
         return interaction.guild.channels.cache
             .filter(channel => channel.constructor.name === type)
@@ -303,16 +231,87 @@ const IAXX = {
         // object with data
         return data;
     },
-
 };
 
-const IAAX = {
+const IABXRA = {
+    knowledge: {
+        'laboratório': [/lab[a-z]+rio ([-a-z]+)/i, async (interaction, match) => {
+            return new Promise(resolve => {
+                const forumChannels = IABXRAX.channelsByType(interaction, 'ForumChannel');
+                const search = match[1];
+                const data = IABXRAX.searchEngine(search, forumChannels);
+
+                if (data.length === 1) {
+                    (async () => {
+                        const username = interaction.user.username;
+                        const docurl = IABX.drive[data[0].sentence];
+                        console.log('docurl>')
+                        console.log(docurl)
+                        if (docurl) {
+                            const content = await ECX.cloud(docurl);
+                            const dataframe = ECX.driver('laboratorio.py', content);
+
+                            if (dataframe[username]) {
+                                var rax = {
+                                    A: 0,
+                                    B: 0,
+                                    C: 0,
+                                };
+
+                                var rbx = {
+                                    A: [],
+                                    B: [],
+                                    C: [],
+                                };
+
+                                for (const token in dataframe[username]) {
+                                    const value = dataframe[username][token];
+                                    if (typeof (rax[value]) == typeof (0)) {
+                                        rax[value]++;
+                                        rbx[value].push(token);
+                                    }
+                                    else {
+                                        rax.C++;
+                                        rbx.C.push(token);
+                                    }
+                                };
+
+                                var output = []
+                                output.push(`Você possuí ${rax.C} tópicos para aprender`);
+                                output.push(rax.B ? `, tem ${rax.B} para melhorar. ` : '. ');
+                                output.push(rax.A ? `**Já *domina* ${rax.A} tópicos!**\n` : '\n');
+                                output.push(rax.C ? `\n**Tópicos para aprender:**\n${rbx.C.join('\n')}\n` : '');
+                                output.push(rax.B ? `\n**Tópicos para melhorar:**\n${rbx.B.join('\n')}\n` : '');
+
+                                resolve(output.join(''));
+                            }
+                            else {
+                                resolve('Acho que você não está registrado nesse laboratório.');
+                            }
+                        }
+                        else {
+                            resolve(`Não consegui acessar a planilha com as informações.`);
+                        }
+                    })();
+                }
+                else if (data.length > 1) {
+                    resolve(`Estou em dúvida sobre qual laboratório estamos falando...\n> ${data.map(x => x.sentence).join(', ')}`);
+                }
+                else {
+                    resolve(`Desculpe, não conheço esse laboratório.`);
+                };
+            });
+        }],
+    },
+}
+
+const IAAXRA = {
     cognition: {
         default: [/(traga para|me (diga|conte|fala)|conte me|qual (é|e|o)|diga me|fala ai)/i, async (interaction, data) => {
-            for (const about in IAEX.knowledge) {
-                const expr = IAEX.knowledge[about][0];
+            for (const about in IABXRA.knowledge) {
+                const expr = IABXRA.knowledge[about][0];
                 if (match = data.value.match(expr)) {
-                    const engine = IAEX.knowledge[about][1]
+                    const engine = IABXRA.knowledge[about][1]
                     return await engine(interaction, match);
                 }
                 return `Não consegui identificar sobre o que estamos conversando ${interaction.user.username}. Desculpe.`;
@@ -321,15 +320,15 @@ const IAAX = {
     },
 };
 
-const IACX = {
+const IAAX = {
     read: async (interaction) => {
         const data = interaction.options.get(IABX.label);
         interaction.deferReply();
 
-        for (const content in IAAX.cognition) {
-            const expr = IAAX.cognition[content][0];
+        for (const content in IAAXRA.cognition) {
+            const expr = IAAXRA.cognition[content][0];
             if (data.value.match(expr)) {
-                const engine = IAAX.cognition[content][1];
+                const engine = IAAXRA.cognition[content][1];
                 return await engine(interaction, data);
             }
         }
@@ -340,7 +339,7 @@ const IACX = {
 const EDX = {
     data: EBX,
     api: EAX.discord,
-    ia: { ...IABX, ...IAAX, ...IAEX, ...IACX },
+    ia: { ...IAAX, ...IAAXRA, ...IABX, ...IABXRA },
 };
 
 module.exports = {
