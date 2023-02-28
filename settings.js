@@ -47,6 +47,7 @@ const IACX = {
     },
     read: (data) => {
         for (content in IAAX.trigger) {
+            console.log(`content> ${content}`);
             if (data.value.match(IAAX.trigger[content][0])) {
                 return IAAX.trigger[content][1](data.value);
             }
