@@ -137,7 +137,7 @@ const IAXX = {
 
         const base = search.match(setup);
 
-        const RX = 0;
+        var RX = 0;
 
         for (word of engine) {
             const sentence = word.match(setup);
