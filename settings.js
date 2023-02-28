@@ -324,7 +324,7 @@ const IAAX = {
     read: async (interaction) => {
         const data = interaction.options.get(IABX.label);
         console.log('Start deferReply')
-        interaction.deferReply();
+        interaction.deferReplys();
         console.log('End deferReply')
 
         for (const content in IAAXRA.cognition) {
