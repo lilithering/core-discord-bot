@@ -162,7 +162,7 @@ const IAXX = {
             console.log('debug>');
             console.log(debug);
 
-            var debug = RA === undefined ? RA.sort().pop() : base.length;
+            var debug = RA == undefined ? RA.sort().pop() : base.length;
             console.log('debug>');
             console.log(debug);
 
