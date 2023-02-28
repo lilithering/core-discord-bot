@@ -127,7 +127,7 @@ const IAEX = {
 
 const IAXX = {
     channelsByType: (interaction, type) => {
-        return interaction.guild.channels.cache.filter(channel => channel.constructor.name === type).map(channel => console.log(channel));
+        return interaction.guild.channels.cache.filter(channel => channel.constructor.name === type).map(channel => console.log(channel.name));
     },
     searchEngine: (search, engine) => {
         const data = [];
