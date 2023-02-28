@@ -114,7 +114,6 @@ const ECX = {
     },
 };
 
-
 const IABX = {
     label: 'lothusgpt',
 };
@@ -180,10 +179,6 @@ const IAAX = {
                     const forumChannels = IAXX.channelsByType(interaction, 'ForumChannel');
                     const search = match[1];
                     const data = IAXX.searchEngine(search, forumChannels);
-                    // @debug
-                    const debug = data;
-                    console.log('debug>');
-                    console.log(debug);
 
                     if (data.length === 1) {
                         return `OK, estamos falando do laboratório: ${data[0].sentence}`;
