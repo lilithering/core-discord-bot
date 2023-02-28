@@ -157,7 +157,7 @@ const IAXX = {
                     };
                 };
             };
-            const SCORE = RA.sort().pop();
+            const SCORE = RA ? RA.sort().pop() : base.length;
             data.push({ score: SCORE, sentence: word });
         };
         if (data) {
