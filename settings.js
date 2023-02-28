@@ -252,7 +252,7 @@ const IAAX = {
                     if (data.length === 1) {
                         (async () => {
                             const username = interaction.user.username;
-                            const labname = IABX.drive[data[1]];
+                            const labname = IABX.drive[data[0].sentence];
                             // @debug
                             console.log('data>');
                             console.log(data);
@@ -294,7 +294,7 @@ const IAAX = {
                                 output += av.C ? `${'\`\`\`\n**Tópicos para aprender:**\n' + reg.C.join('\n')
                                     + (av.B ? '\n\n**Tópicos para melhorar:**\n' + reg.B.join('\n').concat('\n') : '')
                                     + '\n\`\`\`'}` : '';
-                                
+
                                 return output;
                             }
                             else {
