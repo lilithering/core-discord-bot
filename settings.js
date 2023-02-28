@@ -127,7 +127,7 @@ const ECX = {
         data.push(`const core = require('./../${EBX.self.filename}');`);
         data.push(`module.exports = { `);
         data.push(`\tdata: new core.api.SlashCommandBuilder().setName('${name}').setDescription('${description}')${settings}, `);
-        data.push(`\texecute: async ${content},};`);
+        data.push(`\texecute: ${content},};`);
         EAX.filesystem.writeFileSync(path, data.join('\n'));
     },
     deployCommands: () => {
