@@ -152,7 +152,7 @@ const ECX = {
 };
 
 const IABX = {
-    label: 'LothusGPT',
+    label: 'gpt',
     drive: {
         "globo-frontend": 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQBiT5NX_LJJnMzTx9NjBFkzvXe83g5CAdmPYJhWEai3n7RT1Gt0zGJLO3QEVcNzs-y_WFOdBKYG57j/pub?output=csv',
         "debug": 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTi2YJaT8mnyeySSVD7RJZcicqw7XGZHwJEHBaMGatWnMgEB8tfqo5fPc_5N--PDN6zlvJYwKsABT0Z/pub?output=csv',
