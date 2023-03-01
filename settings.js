@@ -152,7 +152,7 @@ const ECX = {
 };
 
 const IABX = {
-    label: 'lothusgpt',
+    label: 'LothusGPT',
     drive: {
         "globo-frontend": 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQBiT5NX_LJJnMzTx9NjBFkzvXe83g5CAdmPYJhWEai3n7RT1Gt0zGJLO3QEVcNzs-y_WFOdBKYG57j/pub?output=csv',
         "debug": 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTi2YJaT8mnyeySSVD7RJZcicqw7XGZHwJEHBaMGatWnMgEB8tfqo5fPc_5N--PDN6zlvJYwKsABT0Z/pub?output=csv',
@@ -282,7 +282,7 @@ const IABXRA = {
                                 output.push(rax.C ? `\n**Tópicos para aprender:**\n${rbx.C.join('\n')}\n` : '');
                                 output.push(rax.B ? `\n**Tópicos para melhorar:**\n${rbx.B.join('\n')}\n` : '');
                                 output.push(`\n> Dados: ***${docurl.slice(0, -3).concat('xlsx')}*`);
-                                output.push(`\n> Alterações no Google Drive pode levar até 3 min para fazer efeito.**`);
+                                output.push(`\n> Alterações no Google Cloud pode levar até 3 min para fazer efeito.**`);
 
                                 resolve(output.join(''));
                             }
